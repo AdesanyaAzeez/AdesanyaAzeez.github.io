@@ -1,4 +1,4 @@
-This is a portfolio website used in hosting projects.
+This is the codebase for my project portfolio
 
 
 Credit:
