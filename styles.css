@@ -116,10 +116,10 @@ body{font-family:'Manrope', 'Inter', system-ui, -apple-system, "Segoe UI", Robot
 .skills .muted{color:rgba(34,34,34,0.45);text-align:center}
 /* Reduce minimum card size for tighter layout */
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px}
-.skill-card{background:linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.75));padding:8px;border-radius:12px;text-align:center;font-weight:700;border:1px solid rgba(29,78,216,0.06);box-shadow:0 6px 18px rgba(16,24,40,0.035);display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:10px;padding-bottom:10px;min-height:82px}
-.skill-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(29,78,216,0.06), rgba(0,166,255,0.04));color:var(--primary);font-size:14px}
-.skill-card h3{margin:0;font-size:13px;font-family:'Lexend',sans-serif;letter-spacing:-0.01em}
-.skill-meta{display:block;color:rgba(34,34,34,0.45);font-size:11px;margin-top:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.02em}
+.skill-card{background:linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.75));padding:8px;border-radius:12px;text-align:center;font-weight:900;border:1px solid rgba(29,78,216,0.06);box-shadow:0 6px 18px rgba(16,24,40,0.035);display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:10px;padding-bottom:10px;min-height:82px}
+.skill-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(29,78,216,0.06), rgba(0,166,255,0.04));color:var(--primary);font-size:15px}
+.skill-card h3{margin:0;font-size:15px;font-family:'Manrope',sans-serif;letter-spacing:-0.01em}
+.skill-meta{display:block;color:rgba(34,34,34,0.45);font-size:12px;margin-top:6px;font-weight:700;text-transform:uppercase;letter-spacing:0.02em}
 @media(max-width:900px){.skills-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.skills-grid{grid-template-columns:1fr}}
 
