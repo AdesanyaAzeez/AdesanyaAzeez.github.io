@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <title>Projects - AbdulAzeez's Portfolio</title>
+    <meta name="description" content="Projects showcase" />
+  <!-- Typography: Lexend for headings, Inter for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html">DATA ANALYST</a>
+        <button id="mobile-toggle-p" class="mobile-toggle">☰</button>
+        <ul class="nav-links" id="nav-links-p">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <!-- <li><a href="contacts.html">Contact Me</a></li> -->
+        </ul>
+      </div>
+    </nav>
+
+    <header class="page-hero">
+      <div class="container">
+        <h1 class="page-title">My Projects</h1>
+        <p class="centertext">A showcase of diverse projects demonstrating analytical expertise in exploring data, generating insights, 
+          and supporting business decisions through analysis, visualization, and business intelligence.</p>
+      </div>
+    </header>
+
+    <main class="container projects-list">
+      <article class="project card">
+        <div class="project-media">
+          <img src="assets/hb.jpg" alt="E-Commerce Analytics Dashboard">
+        </div>
+        <div class="project-body">
+          <h2>HOTEL BOOKING ANALYSIS</h2>
+          <p class="justify">Comprehensive Hotel booking analysis using Python to explore booking trends, guest profile, cancellation behaviour,
+            and revenue performance, generating actionable insights to improve operations and revenue management.</p>
+          <div class="tags">
+            <span class="tag">Pandas</span>
+            <span class="tag">Matplotlib</span>
+            <span class="tag">Seaborn</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Hotel-Booking-Analysis.git">View Project ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project card">
+        <div class="project-body">
+          <h2>HEALTH CRISIS IN AFRICA</h2>
+          <p class="justify">An in-depth analysis of public health and socioeconomic indicators including disease prevalence, 
+            healthcare access, GDP, and workforce statistics to identify key factors contributing to Africa's 
+            health challenges.</p>
+          <div class="tags">
+            <span class="tag">Power BI</span>
+            <span class="tag">Excel</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Health_Crisis_In_Africa">View Project ↗</a>
+            <a class="btn outline" href="https://medium.com/@adesanyaabdulazeez/health-crisis-in-africa-6ce1ef83f075">Read More ↗</a>
+          </div>
+        </div>
+        <div class="project-media">
+          <img src="assets/healthcrisis.jpg" alt="Financial Data Analysis Platform">
+        </div>
+      </article>
+
+      <article class="project card">
+        <div class="project-media">
+          <img src="assets/datanorm.png" alt="Healthcare Insights System">
+        </div>
+        <div class="project-body">
+          <h2>DATA NORMALIZATION</h2>
+          <p class="justify">Clean, well-structured data is the backbone of accurate analysis and informed decision-making. 
+            In this project, I used SQL to normalize a complex dataset, breaking it into related tables to ensure consistency, 
+            eliminate redundancy, and enable efficient data querying and reporting.</p>
+          <div class="tags">
+            <span class="tag">SQL</span>
+            <span class="tag">Data Modeling</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn outline" href="https://medium.com/@adesanyaabdulazeez/data-normalization-with-sql-59cb75829822">Read More ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project card">
+        <div class="project-body">
+          <h2>PAPER STORE ORDERS REPORT</h2>
+          <p class="justify">Extracted and transformed data from a store database to analyze and visualize 
+            insights, showing key metrics, trends, and patterns to better understand order behaviours.</p>
+          <div class="tags">
+            <span class="tag">SQL</span>
+            <span class="tag">Looker Studio</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Parch-and-Posey-Store--Database-Querying">View Project ↗</a>
+            <a class="btn outline" href="https://lookerstudio.google.com/u/0/reporting/2018cf9a-99f1-4543-8f6e-94f24b57d470/page/MBlQD">Dashboard ↗</a>
+          </div>
+        </div>
+        <div class="project-media">
+          <img src="assets/paperstore.jpg" alt="Healthcare Insights System">
+        </div>
+      </article>
+    </main>
+
+    <!-- Featured Dashboards (carousel) -->
+  <section class="container carousel">
+  <h2 class="carousel-title">Featured Dashboards</h2>
+  <p class="muted carousel-sub">Interactive dashboards and reports showcasing advanced data visualization techniques</p>
+      <div class="carousel-scroll" id="dash-scroll">
+        <div class="carousel-card"><img src="assets/hotelbkn.jpg" alt="Business Intelligence Suite">
+          <h3>
+            <a class="btn outline" href="https://lookerstudio.google.com/s/nXxLUy1HSAw" target="_blank" rel="noopener noreferrer">
+              HOTEL BOOKINGS REPORT
+            </a>
+          </h3>
+          <p class="muted">LOOKER STUDIO</p>
+        </div>
+        <div class="carousel-card"><img src="assets/electstore.png" alt="Analytics Command Center">
+          <h3>
+            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/main/Electronic%20Store%20Sales%20Analysis" target="_blank" rel="noopener noreferrer">
+              ELECTRONIC STORE SALES REPORT
+            </a>
+          </h3>
+          <p class="muted">POWER BI</p>
+        </div>
+        <div class="carousel-card"><img src="assets/SuperStr.jpg" alt="Data Insights Platform">
+          <h3>
+            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/main/SuperStore%20Dashboard" target="_blank" rel="noopener noreferrer">
+              SUPERSTORE DASHBOARD
+            </a>
+          </h3>
+          <p class="muted">POWER BI</p>
+        </div>
+        <div class="carousel-card"><img src="assets/adsrept.jpg" alt="Marketing Dashboard">
+          <h3>
+            <a class="btn outline" href="https://lookerstudio.google.com/s/psrjAXM-wXM" target="_blank" rel="noopener noreferrer">
+              ONLINE ADS REPORT
+            </a>
+          </h3>
+          <p class="muted">LOOKER STUDIO</p>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-button left" id="dash-left" aria-label="Scroll dashboards left">◀</button>
+        <button class="carousel-button right" id="dash-right" aria-label="Scroll dashboards right">▶</button>
+      </div>
+  </section>
+
+    <footer id="contact" class="site-footer simple">
+      <div class="container footer-inner">
+        <div class="connect">
+          <div class="socials">
+            <a class="icon" href="mailto:adesanya240@gmail.com" aria-label="Email">
+              <i class="fa-regular fa-envelope"></i>
+            </a>
+            <a class="icon" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+            <a class="icon" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a class="icon" href="https://twitter.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X">
+              <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a class="icon" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+              <i class="fa-brands fa-medium"></i>
+            </a>
+          </div>
+          <div class="copyright-footer">© 2025 AbdulAzeez Adesanya</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // mobile toggle
+      document.getElementById('mobile-toggle-p').addEventListener('click', function(){
+        document.getElementById('nav-links-p').classList.toggle('open');
+      });
+
+      // Dashboards carousel controls
+      const dashScroll = document.getElementById('dash-scroll');
+      const dashLeft = document.getElementById('dash-left');
+      const dashRight = document.getElementById('dash-right');
+      if (dashLeft && dashRight && dashScroll) {
+        // Scroll by the visible width of the carousel (approx one "page") so arrow jumps a group
+        const scrollAmount = () => Math.floor(dashScroll.offsetWidth * 0.98);
+        dashLeft.addEventListener('click', () => dashScroll.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+        dashRight.addEventListener('click', () => dashScroll.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+      }
+    </script>
+  </body>
+</html>
