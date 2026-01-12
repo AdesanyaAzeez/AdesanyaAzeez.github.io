@@ -1,6 +1,6 @@
 # ABDULAZEEZ ADESANYA
 
-### DATA ANALYST | BUSINESS INTELLIGENCE EXPERT | ANALYTICS ENGINEER ENTHUSIAST
+### DATA ANALYST | BUSINESS INTELLIGENCE & REPORTING EXPERT | ANALYTICS ENGINEER ENTHUSIAST
 
 Welcome to my project portfolio!
 
@@ -8,4 +8,5 @@ This repository contains a diverse collection of data analytics projects that de
 
 Feel free to explore the projects and code, and reach out if you have questions or collaboration ideas!
 
-©️ 2025 Abdulazeez Adesanya
+©️ 2026 Abdulazeez Adesanya
+
