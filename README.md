@@ -1,6 +1,6 @@
 # AbdulAzeez Adesanya
 
-## Analytics Engineer | Data Engineering | Business Intelligence
+## Analytics Engineer | Data Analyst | Business Intelligence
 
 Welcome to my project portfolio.
 
