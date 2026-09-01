@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <title>Multi-Agent Data &amp; Operations Platform — Case Study | AbdulAzeez Adesanya</title>
+  <meta name="description" content="Case study: a production multi-agent AI platform connecting data, engineering, operations, support, and reconciliation workflows through Slack and an API, via OpenClaw orchestration and MCP-based integrations with the warehouse, Metabase, GitLab, and Jira." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-hero{padding:90px 0 110px; background:
+        radial-gradient(ellipse 60% 60% at 100% 0%, rgba(11,96,234,.10), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(11,96,234,.06), transparent 60%),
+        linear-gradient(180deg, #FBFDFF 0%, #FFFFFF 100%);}
+    .page-hero-inner{max-width:880px; margin:0 auto;}
+    .breadcrumb{display:flex; align-items:center; gap:8px; color:var(--gray-500); font-size:13px; font-weight:700; margin-bottom:22px; flex-wrap:wrap;}
+    .breadcrumb a{color:var(--primary);}
+    .breadcrumb i{font-size:10px;}
+    .page-hero-title{font-size:60px; line-height:1.02; letter-spacing:-.035em; color:var(--navy); font-weight:900; margin:8px 0 16px;}
+    .page-hero-tagline{font-size:18px; line-height:1.7; color:var(--gray-600); max-width:820px;}
+    .hero-badges{display:flex; flex-wrap:wrap; gap:52px; margin-top:38px;}
+    .hero-badges span{font-weight:700; font-size:17px; letter-spacing:-.01em; color:var(--navy);}
+    .cs-meta-wrap{margin-top:-54px; position:relative; z-index:3;}
+    .case-study-meta{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; background:#fff; padding:26px 28px; border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md);}
+    .cs-meta-item{display:flex; align-items:flex-start; gap:12px;}
+    .cs-meta-item > i{width:40px; height:40px; border-radius:10px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+    .cs-meta-item small{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500); text-transform:uppercase; margin-bottom:4px; display:block;}
+    .cs-meta-item strong{font-size:14px; font-weight:800; color:var(--navy); line-height:1.4;}
+    .case-study{padding:72px 0 20px;}
+    .cs-inner{max-width:880px; margin:0 auto;}
+    .cs-block{margin-bottom:64px;}
+    .cs-block h3{font-size:24px; color:var(--navy); font-weight:800; letter-spacing:-.02em; margin-bottom:20px; display:flex; align-items:center;}
+    .cs-block h3::before{content:""; display:inline-block; width:5px; height:20px; background:var(--primary); border-radius:2px; margin-right:14px;}
+    .cs-block h4{font-size:18px; color:var(--navy); font-weight:800; letter-spacing:-.01em; margin:26px 0 10px;}
+    .cs-block > p{font-size:16px; color:var(--gray-600); line-height:1.78; margin-bottom:14px;}
+    .cs-block ul{margin:8px 0 0; padding-left:22px;}
+    .cs-block li{margin-bottom:12px; color:var(--gray-600); line-height:1.72; font-size:15.5px;}
+    .cs-block li strong{color:var(--navy); font-weight:800;}
+    .summary-arch{border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md); margin:22px 0 8px; background:#fff; padding:28px 30px;}
+    .summary-arch-title{font-size:13px; font-weight:800; color:var(--primary); letter-spacing:.1em; text-transform:uppercase; margin:0 0 20px;}
+    .arch-flow{display:flex; flex-direction:column; gap:0;}
+    .arch-node{background:#fff; border:1.5px solid var(--primary-600); color:var(--navy); border-radius:14px; padding:14px 18px; text-align:center; font-weight:800; font-size:16px; letter-spacing:-.01em; box-shadow:0 4px 14px rgba(11,96,234,.08);}
+    .arch-node.alt{background:var(--primary-soft); border-color:rgba(11,96,234,.35);}
+    .arch-node.hl{background:var(--primary); color:#fff; border-color:var(--primary);}
+    .arch-arrow{text-align:center; color:var(--primary); font-size:14px; line-height:1; padding:6px 0;}
+    .arch-split{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .arch-caption{font-size:12px; color:var(--gray-500); text-align:center; margin-top:14px; letter-spacing:.05em; font-weight:700; text-transform:uppercase;}
+    .agent-card{background:#fff; border-radius:18px; padding:22px 24px; border:1px solid var(--gray-100); box-shadow:var(--shadow-sm); margin-bottom:18px;}
+    .agent-card-head{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
+    .agent-card-head i{width:40px; height:40px; border-radius:10px; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:15px;}
+    .agent-card-head strong{font-size:16px; color:var(--navy); font-weight:800; letter-spacing:-.01em;}
+    .agent-card ul{margin:6px 0 0; padding-left:20px;}
+    .layer-diagram{display:grid; grid-template-columns:1fr; gap:14px; margin:10px 0 6px;}
+    .layer{border-radius:16px; padding:16px 20px; border:1px solid var(--gray-100); background:#fff; box-shadow:var(--shadow-sm);}
+    .layer h5{font-size:14px; font-weight:800; color:var(--primary); letter-spacing:.05em; text-transform:uppercase; margin:0 0 8px; display:inline-flex; align-items:center;}
+    .layer p{font-size:14px; color:var(--gray-600); margin:0; line-height:1.65;}
+    .layer ul{margin:6px 0 0; padding-left:18px;}
+    .layer li{font-size:14px; color:var(--gray-600); margin-bottom:6px;}
+    .impact-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px;}
+    .impact-item{background:var(--primary-soft); border-radius:16px; padding:20px 22px; border:1px solid rgba(11,96,234,.12);}
+    .impact-item strong{font-size:16px; font-weight:800; color:var(--navy); display:block; margin-bottom:6px; letter-spacing:-.01em;}
+    .impact-item p{margin:0; color:var(--gray-600); font-size:14px; line-height:1.65;}
+    .stack-group{margin-bottom:16px; background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:22px 26px; box-shadow:var(--shadow-sm);}
+    .stack-group h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px;}
+    .stack-tools{display:flex; flex-wrap:wrap; gap:24px; font-size:16px; font-weight:700; color:var(--navy); letter-spacing:-.01em;}
+    .stack-tools .with-icon{display:inline-flex; align-items:center;}
+    .stack-tools img{margin-right:8px;}
+    .sanitized-note{margin-top:16px; background:#fff; border:1px dashed var(--primary); border-radius:14px; padding:20px 24px;}
+    .sanitized-note h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px; display:flex; align-items:center; gap:8px;}
+    .sanitized-note p{margin:0; font-size:15px; color:var(--gray-600); line-height:1.7;}
+    .sanitized-convo{background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:18px 20px; box-shadow:var(--shadow-sm); margin-top:14px;}
+    .sanitized-convo small{font-size:11px; font-weight:800; color:var(--gray-500); letter-spacing:.08em; text-transform:uppercase; display:block; margin-bottom:12px;}
+    .convo-row{display:flex; gap:12px; margin-bottom:14px;}
+    .convo-row:last-child{margin-bottom:0;}
+    .convo-avatar{width:34px; height:34px; border-radius:10px; background:var(--gray-100); display:flex; align-items:center; justify-content:center; color:var(--gray-500); font-size:12px; font-weight:800; flex-shrink:0;}
+    .convo-avatar.agent{background:var(--primary); color:#fff;}
+    .convo-bubble{border-radius:14px; padding:12px 14px; font-size:14px; line-height:1.6; color:var(--gray-700); background:var(--gray-50); border:1px solid var(--gray-100); flex:1; max-width:80%;}
+    .convo-row.agent-side .convo-bubble{background:#fff; border-color:var(--primary-light); color:var(--navy);}
+    .cs-cta-bar{display:flex; gap:12px; margin:40px 0 60px; flex-wrap:wrap;}
+
+    @media (max-width:1100px){
+      .case-study-meta{grid-template-columns:1fr 1fr;}
+      .impact-grid{grid-template-columns:1fr;}
+      .page-hero-title{font-size:48px;}
+      .hero-badges{gap:34px;}
+    }
+    @media (max-width:768px){
+      .page-hero{padding:56px 0 80px;}
+      .page-hero-title{font-size:36px;}
+      .case-study-meta{grid-template-columns:1fr;}
+      .cs-block h3{font-size:20px;}
+      .cs-meta-wrap{margin-top:-36px;}
+      .convo-bubble{max-width:100%;}
+      .arch-split{grid-template-columns:1fr;}
+      .hero-badges{gap:22px; margin-top:28px;}
+      .hero-badges span{font-size:15px;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle-m" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links-m">
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="breadcrumb">
+        <a href="/projects/"><i class="fa-solid fa-arrow-left"></i> Projects</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Case Study</span>
+      </div>
+      <span class="eyebrow">MULTI-AGENT DATA &amp; OPERATIONS PLATFORM</span>
+      <h1 class="page-hero-title">An AI-powered Internal Bot<br>for Analytics, Engineering, Support and Operational workflows.</h1>
+      <p class="page-hero-tagline">
+        A production multi-agent AI platform that connects internal systems and operational workflows through Slack and an API,
+        allowing teams to interact with data and business applications using natural language.
+      </p>
+      <div class="hero-badges">
+        <span>• OpenClaw</span>
+        <span>• MCP</span>
+        <span>• Slack</span>
+        <span>• AI Agents</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container cs-meta-wrap">
+    <div class="case-study-meta">
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-user-tie"></i>
+        <div>
+          <small>Role</small>
+          <strong>Multi-agent Architecture, Integrations &amp; Implementation owner.</strong>
+        </div>
+      </div>
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-layer-group"></i>
+        <div>
+          <small>Area</small>
+          <strong>AI Orchestration · MCP Integrations · Workflows.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-study">
+    <div class="container cs-inner">
+      <div class="cs-block">
+        <h3>Overview</h3>
+        <p>
+          The platform was designed to provide <strong>a single conversational interface</strong> for multiple internal use cases —
+          rather than building isolated AI tools for each department or workflow. Teams did not want another disconnected
+          chatbot; they wanted the AI to sit <em>inside</em> the systems they already used every day, with the ability to take
+          real action on their behalf.
+        </p>
+        <p>
+          The platform primarily operates through Slack, where users naturally collaborate, while also exposing an API interface
+          for backend integrations and programmatic use cases. The high-level flow is:
+        </p>
+        <div class="layer-diagram">
+          <div class="layer">
+            <h5><i class="fa-solid fa-user" style="margin-right:8px;"></i>1 · Users</h5>
+            <p>Business stakeholders, analysts, engineers, support, operations, and finance teams.</p>
+          </div>
+          <div class="layer">
+            <h5><i class="fa-solid fa-right-left" style="margin-right:8px;"></i>2 · Interfaces</h5>
+            <p>Slack for human-driven conversational use; API for programmatic and backend-driven use cases.</p>
+          </div>
+          <div class="layer">
+            <h5><i class="fa-solid fa-compass-drafting" style="margin-right:8px;"></i>3 · OpenClaw orchestration</h5>
+            <p>Agent orchestration routes and manages the conversation lifecycle, tool calls, and multi-step workflows.</p>
+          </div>
+          <div class="layer">
+            <h5><i class="fa-solid fa-user-astronaut" style="margin-right:8px;"></i>4 · Specialized agents</h5>
+            <p>Domain-specialized agents (Analytics, Engineering, Operations, Support etc) each own a class of tasks.</p>
+          </div>
+          <div class="layer">
+            <h5><i class="fa-solid fa-plug" style="margin-right:8px;"></i>5 · MCP / Plugins layer</h5>
+            <p>Structured integration layer exposing tool capabilities from internal applications with clear contracts.</p>
+          </div>
+          <div class="layer">
+            <h5><i class="fa-solid fa-database" style="margin-right:8px;"></i>6 · Internal applications &amp; data</h5>
+            <p>Data Warehouse, BI Tool, Observability and Ticketing system, and other connected internal services — real systems, real data, real actions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <h3>Architecture</h3>
+        <div class="summary-arch">
+          <div class="summary-arch-title">Summary of Architecture</div>
+          <div class="arch-flow">
+            <div class="arch-node alt"><i class="fa-solid fa-user" style="margin-right:10px;"></i>User</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+            <div class="arch-split">
+              <div class="arch-node">Slack</div>
+              <div class="arch-node">API</div>
+            </div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+            <div class="arch-node hl"><i class="fa-solid fa-compass-drafting" style="margin-right:10px;"></i>OpenClaw Orchestration</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+            <div class="arch-node alt"><i class="fa-solid fa-user-astronaut" style="margin-right:10px;"></i>Multi Agents</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+            <div class="arch-split" style="grid-template-columns:repeat(4,1fr);">
+              <div class="arch-node">MCP</div>
+              <div class="arch-node">Plugins</div>
+              <div class="arch-node">Skills</div>
+              <div class="arch-node">Tools</div>
+            </div>
+          </div>
+          <div class="arch-caption">Sanitized Conceptual Architecture</div>
+        </div>
+        <p style="margin-top:14px;">
+          The architecture intentionally splits reasoning from capabilities. <strong>OpenClaw handles the orchestration, routing,
+          and conversation state</strong>; specialized agents handle the domain-specific reasoning for each workflow class; the
+          <strong>MCP / Plugins / Skills / Tools layer provides a clean capability boundary</strong> giving agents structured
+          access to connected applications without application logic leaking into agent code.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Multi-Agent Architecture</h3>
+        <p>
+          The platform is composed of <strong>specialized agents</strong>, each responsible for a particular class of tasks.
+          This was an explicit architectural choice rather than one monolithic agent: each agent can be independently extended,
+          tested, permission-scoped, and improved without changing unrelated parts of the system.
+        </p>
+
+        <div class="agent-card">
+          <div class="agent-card-head">
+            <i class="fa-solid fa-chart-column"></i>
+            <strong>Analytics Agent</strong>
+          </div>
+          <p style="margin:0 0 8px; color:var(--gray-600); font-size:15.5px; line-height:1.7;">
+            Handles natural-language interaction with the organization's data and analytics environment. Enables non-technical
+            users to work with analytical systems conversationally, while still connecting to the real underlying data
+            infrastructure — not a disconnected copy of answers.
+          </p>
+          <ul style="list-style-type: disc; padding-left: 20px;">
+            
+            <li>Querying analytical data and returning structured answers.</li>
+            <li>Answering business and data questions with grounded references back to warehouse entities.</li>
+            <li>Interacting with Metabase — looking up dashboards, reading from saved questions, creating new ones where allowed.</li>
+            <li>Supporting analysis workflows: slice, compare periods, break down dimensions.</li>
+            <li>Generating presentation-ready slide artifacts from analytical outputs.</li>
+          </ul>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-card-head">
+            <i class="fa-solid fa-wrench"></i>
+            <strong>Engineering Agent</strong>
+          </div>
+          <p style="margin:0 0 8px; color:var(--gray-600); font-size:15.5px; line-height:1.7;">
+            Handles engineering observability and troubleshooting workflows. The important distinction: this agent does not
+            merely answer engineering questions — it can <em>interact</em> with engineering systems through the integrations,
+            turning investigation into action in a single conversational workflow.
+          </p>
+          <ul style="list-style-type: disc; padding-left: 20px;">
+            <li>Investigating observability data, traces, errors, and service health through connected systems.</li>
+            <li>Supporting incident and troubleshooting workflows, from symptom → hypothesis → evidence.</li>
+            <li>Interacting with Hosting platform: looking at pipelines, reviewing merge requests, linking related changes.</li>
+            <li>Creating, linking, and updating Ticketing system tickets directly from the investigative flow.</li>
+            <li>Connecting investigation → engineering action within a single conversational session.</li>
+          </ul>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-card-head">
+            <i class="fa-solid fa-headset"></i>
+            <strong>Customer Support Agent</strong>
+          </div>
+          <p style="margin:0 0 8px; color:var(--gray-600); font-size:15.5px; line-height:1.7;">
+            Supports customer-facing operational workflows by providing access to relevant internal information and enabling
+            support-related tasks through connected systems. Descriptions remain intentionally generalized; no customer
+            information, proprietary processes, or case records are exposed here.
+          </p>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-card-head">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <strong>Settlement &amp; Reconciliation Agent</strong>
+          </div>
+          <p style="margin:0 0 8px; color:var(--gray-600); font-size:15.5px; line-height:1.7;">
+            Handles transaction reconciliation workflows. A key production workflow for this agent is:
+          </p>
+          <ol style="padding-left:22px; margin:0 0 8px; color:var(--gray-600); font-size:15.5px; line-height:1.7;">
+            <li style="margin-bottom:8px;">An externally supplied transaction file is uploaded/ingested.</li>
+            <li style="margin-bottom:8px;">The platform processes and structures the records.</li>
+            <li style="margin-bottom:8px;">Each record is compared against the authoritative warehouse data.</li>
+            <li>The agent produces reconciliation outcomes for the user.</li>
+          </ol>
+          <p style="margin:0 0 8px; color:var(--gray-600); font-size:15.5px; line-height:1.7;">
+            Outcomes clearly separate:
+          </p>
+          <ul style="list-style-type: disc; padding-left: 20px;">
+            <li>Matching transactions — records that reconcile cleanly on the agreed keys.</li>
+            <li>Missing transactions — records present in one dataset but absent from the other.</li>
+            <li>Discrepancies — records that match on keys but diverge on amounts, statuses, or other fields.</li>
+            <li>Potential inconsistencies — structural or formatting oddities flagged for human review.</li>
+            <li>Reconciliation outcomes — summary view of total matched / missing / discrepant rows and statistics.</li>
+          </ul>
+        </div>
+
+        <h4>Extensibility &amp; architectural intent</h4>
+        <p>
+          The architecture is intentionally extensible. Additional specialized agents and workflows can be added without
+          turning the system into a single monolithic agent — each new workflow brings its own agent, prompts, tools, and
+          permissions, while reusing the orchestration, interface, and integration plumbing below it. This was one of the
+          most important architectural decisions in the project.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>MCP &amp; Application Integration</h3>
+        <p>
+          <strong>MCP (Model Context Protocol)</strong> is an important part of the technical story — it is the primary way the
+          platform provides agents with structured, typed, capability-based access to internal applications.
+        </p>
+        <p>
+          The architecture deliberately separates two concerns:
+        </p>
+        <div class="layer-diagram">
+          <div class="layer">
+            <h5><i class="fa-solid fa-brain" style="margin-right:8px;"></i>Agent reasoning &amp; orchestration</h5>
+            <p>Routing, conversation state, tool-call orchestration, multi-step workflow management, contextual memory.
+              Owned by OpenClaw and the specialist agents — none of this couples to application APIs directly.</p>
+          </div>
+          <div class="layer">
+            <h5><i class="fa-solid fa-plug" style="margin-right:8px;"></i>Application capabilities exposed through MCP</h5>
+            <p>Each internal system exposes a small, permission-scoped surface through the integration layer using MCP as the
+              default protocol. Where MCP does not fit for a specific integration, plugins, skills, and other tools are used
+              alongside it for pragmatic reasons — not every integration in the world uses MCP, and the platform respects that reality.</p>
+            <ul style="list-style-type: disc; padding-left: 20px;">
+              <li>Analytical / data systems: query surfaces, entity lookups, saved analyses, slide generation.</li>
+              <li>BI Platform: questions, dashboards, and structured metadata lookups.</li>
+              <li>Hosting Platform: MR, pipeline, and project-level information surfaces.</li>
+              <li>Ticket creation, linking, transition, and search where permitted.</li>
+              <li>Additional internal services exposed on a per-workflow, per-permission basis.</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:12px;">
+          This separation means new integrations land by adding or updating an MCP service/plugin and giving the correct
+          agent access to it; no other agent code needs to change for a new integration to become available.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Slack Interface</h3>
+        <p>
+          Slack is the primary user interface — and the design goal was simple: users should not have to learn multiple
+          internal tools or jump between systems for common operational workflows. They initiate a workflow conversationally
+          from Slack, and the platform orchestrates the appropriate agent and integrations behind the scenes.
+        </p>
+        <p>
+          A <strong>sanitized, illustrative</strong> example of what a short Analytics Agent workflow can look like:
+        </p>
+        <div class="sanitized-convo">
+          <small>Illustrative example · sanitized, not a real production conversation</small>
+          <div class="convo-row">
+            <div class="convo-avatar">U</div>
+            <div class="convo-bubble">Show me yesterday's failed transactions by processor.</div>
+          </div>
+          <div class="convo-row agent-side">
+            <div class="convo-avatar agent">A</div>
+            <div class="convo-bubble">Analytics Agent pulling yesterday's transaction dataset… summary by processor ready:
+              <br><br>
+              • Processor A: 128 failed, 1.1% rate<br>
+              • Processor B: 42 failed, 0.6% rate<br>
+              • Processor C: 77 failed, 0.9% rate<br><br>
+              Breakdown by failure code, time-bucket, and region are attached.
+            </div>
+          </div>
+          <div class="convo-row">
+            <div class="convo-avatar">U</div>
+            <div class="convo-bubble">Create a dashboard for this.</div>
+          </div>
+          <div class="convo-row agent-side">
+            <div class="convo-avatar agent">A</div>
+            <div class="convo-bubble">Created the relevant analysis and linked it to the shared Metabase collection — you can view it directly here.
+              <br><br>
+              Title: Processor-level transaction failure overview · collection: Internal Operations.</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;">
+          The same conversational pattern is used across agent domains — data work in Slack, engineering triage in Slack,
+          support tasks in Slack, reconciliation in Slack — with the correct specialist agent and integration set being
+          selected behind the scenes based on what the user is actually doing.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Key Engineering Challenges</h3>
+        <ul>
+          <li><strong>Multi-agent orchestration.</strong> Correctly routing a conversational request across specialists, handling handoffs between agents on multi-domain questions, and preserving context across those handoffs.</li>
+          <li><strong>Routing to the right capability.</strong> A single Slack message can plausibly reach many tools; choosing the correct agent → tool combination reliably is more architecture than prompt engineering.</li>
+          <li><strong>Safe connection to internal systems.</strong> Giving an AI agent read or write access to real internal applications is fundamentally a trust boundary problem. Permission-scoped tools, clear MCP contracts, and audit logging all matter more than model cleverness here.</li>
+          <li><strong>Designing MCP-based integrations.</strong> Designing capability surfaces that are expressive enough to be useful but small enough to be secure, well-tested, versionable, and explainable to humans.</li>
+          <li><strong>Tool access &amp; permissions.</strong> Different users and different agents must see different subsets of tools; the integration layer enforces, not assumes, the correct scope for every call.</li>
+          <li><strong>Multi-step workflows.</strong> Real workflows — reconciliation, incident investigation, slide generation — are multi-step, not single-turn. Managing plan, state, progress and recovery without confusing the user is a core problem.</li>
+          <li><strong>Contextual continuity.</strong> Keeping useful context across interactions without endlessly ballooning prompt size or cost — summarization strategies, memory policies, and thread hygiene all play a part.</li>
+          <li><strong>Conversational utility.</strong> Conversational interfaces are easy to prototype and hard to make genuinely useful. The bar is not "it answers"; it is "it completes the operational task the user actually wanted done."</li>
+          <li><strong>Slack + API parity.</strong> Exposing effectively the same capabilities through both a chat interface and a programmatic API, with a single underlying implementation rather than two parallel worlds.</li>
+          <li><strong>Extensibility.</strong> Designing for additional specialist agents and integrations from day one, so the platform grows by composition rather than by piling more into a single ball of mud.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Business &amp; Engineering Impact</h3>
+        <p>
+          Described in terms of workflow consolidation and platform value, without fabricated metrics:
+        </p>
+        <div class="impact-grid">
+          <div class="impact-item">
+            <strong>One interface, many workflows.</strong>
+            <p>Multiple internal workflows that previously required tooling up across different applications are now reachable
+              from one conversational Slack entry point and the matching API surface.</p>
+          </div>
+          <div class="impact-item">
+            <strong>Less friction between users &amp; systems.</strong>
+            <p>Non-technical team members can ask for data, dashboards, ticket actions, investigations, or reconciliation
+              outputs directly in natural language — the platform handles the specialist tooling behind the scenes.</p>
+          </div>
+          <div class="impact-item">
+            <strong>More accessible analytical information.</strong>
+            <p>Data, dashboards, and presentation-ready analytical outputs no longer require navigating reporting tools by hand
+              for every request — they can be produced conversationally where teams already collaborate.</p>
+          </div>
+          <div class="impact-item">
+            <strong>Automated parts of engineering &amp; ops.</strong>
+            <p>Investigation → ticket → MR / reconciliation → report / support → action patterns can now be expressed as a
+              single conversation rather than a string of copy-pastes across apps.</p>
+          </div>
+          <div class="impact-item">
+            <strong>Conversational access to internal tools.</strong>
+            <p>Capabilities that used to require finding the right system, logging in, knowing which screen, and remembering
+              steps — now live behind natural language, while still being grounded in the real systems.</p>
+          </div>
+          <div class="impact-item">
+            <strong>A reusable platform, not isolated scripts.</strong>
+            <p>New agents and integrations compose onto shared plumbing — orchestration, interfaces, permissions, logging,
+              audits — instead of each team shipping its own one-off AI helper that dies when its author moves on.</p>
+          </div>
+          <div class="impact-item" style="grid-column:1 / -1;">
+            <strong>An extensible foundation.</strong>
+            <p>The architecture was explicitly designed to support additional specialist agents and integrations with bounded,
+              localized effort — each new workflow reuses interfaces, orchestration, MCP surfaces, and operational guardrails
+              rather than rebuilding them.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <h3>Technology Stack</h3>
+        <div class="stack-group">
+          <h5>AI / Agent Platform</h5>
+          <div class="stack-tools">
+            <span>OpenClaw</span>
+            <span>Specialized agents</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Integration</h5>
+          <div class="stack-tools">
+            <span>MCP</span>
+            <span>Plugins</span>
+            <span>Skills</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Interfaces</h5>
+          <div class="stack-tools">
+            <span>Slack</span>
+            <span>Backend API</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Data &amp; Analytics</h5>
+          <div class="stack-tools">
+            <span>Analytics Warehouse</span>
+            <span>BI Tool</span>
+            <span>Hosting &amp; Observability Platform</span>
+            <span>Device Manager</span>
+            <span>and more</span>
+          </div>
+        </div>
+        
+        <div class="sanitized-note">
+          <h5><i class="fa-solid fa-shield-halved"></i>Security · Confidentiality note</h5>
+          <p>This case study has been intentionally sanitized. Proprietary data, internal infrastructure details, credentials,
+            customer information, and confidential implementation details have been omitted or described generically where
+            appropriate. All architecture diagrams and examples are conceptual and illustrative.</p>
+        </div>
+
+        <div class="cs-cta-bar">
+          <a class="btn btn-outline" href="/projects/"><i class="fa-solid fa-arrow-left"></i> Back to Projects</a>
+          <!-- <a class="btn btn-dark" href="/#contact">Let's Talk <i class="fa-solid fa-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 AbdulAzeez Adesanya. All rights reserved. Built with data. Delivered with care.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var t = document.getElementById('mobile-toggle-m');
+      var n = document.getElementById('nav-links-m');
+      if (!t || !n) return;
+      t.addEventListener('click', function(){
+        n.classList.toggle('open');
+      });
+    })();
+  </script>
+</body>
+</html>

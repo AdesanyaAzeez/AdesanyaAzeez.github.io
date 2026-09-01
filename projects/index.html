@@ -1,241 +1,660 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-    <title>Projects - AbdulAzeez's Portfolio</title>
-    <meta name="description" content="Projects showcase" />
-  <!-- Typography: Lexend for headings, Inter for body -->
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <title>Projects — AbdulAzeez Adesanya | Data Analytics Engineer</title>
+  <meta name="description" content="Selected projects and dashboard work by AbdulAzeez Adesanya — Data Analytics Engineer" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <nav class="nav">
-      <div class="container nav-inner">
-        <!-- <a class="brand" href="/">DATA ANALYST</a> -->
-        <a class="brand" style="font-size: 40px;" href="/">&#8962;</a>
-        <button id="mobile-toggle-p" class="mobile-toggle">☰</button>
+  <style>
+    /* Projects page only — layered on top of shared /styles.css (tokens match first-revamp) */
+    .page-hero{padding:90px 0 90px; background:
+        radial-gradient(ellipse 60% 60% at 100% 0%, rgba(11,96,234,.10), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(11,96,234,.06), transparent 60%),
+        linear-gradient(180deg, #FBFDFF 0%, #FFFFFF 100%);}
+    .page-hero-inner{display:grid; grid-template-columns:1.15fr 1fr; gap:64px; align-items:center;}
+    .page-hero-text{max-width:620px;}
+    .page-hero-title{font-size:72px; line-height:1; letter-spacing:-.035em; color:var(--navy); font-weight:900; margin:8px 0 18px;}
+    .page-hero-sub{font-size:18px; color:var(--gray-600); line-height:1.7; margin-bottom:28px; max-width:560px;}
+    .hero-stats-card{background:#fff; border-radius:24px; padding:28px; box-shadow:var(--shadow-xl); border:1px solid rgba(11,96,234,.06);}
+    .hero-stats-head{display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; background:var(--gray-50); margin-bottom:22px;}
+    .hero-stats-head i{width:44px; height:44px; border-radius:10px; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 4px 14px rgba(11,96,234,.28);}
+    .hero-stats-head span{display:block;}
+    .hero-stats-head small{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500);}
+    .hero-stats-head strong{font-size:20px; font-weight:800; color:var(--navy);}
+    .hero-stats-row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;}
+    .hero-stat{padding:14px 16px; border-radius:14px; background:#fff; border:1px solid var(--gray-100);}
+    .hero-stat small{display:block; font-size:11px; font-weight:800; letter-spacing:.08em; color:var(--gray-500); margin-bottom:4px;}
+    .hero-stat strong{font-size:26px; font-weight:900; color:var(--navy); letter-spacing:-.02em; display:flex; align-items:center; gap:6px;}
+    .hero-stat strong i{font-size:12px; color:var(--primary);}
+    .hero-hl{background:var(--primary-soft); border-radius:14px; padding:8px; margin-bottom:20px; border:1px solid rgba(11,96,234,.1);}
+    .hero-hl-row{display:flex; justify-content:space-between; padding:12px 14px; border-bottom:1px dashed rgba(11,96,234,.18); font-weight:600; color:var(--gray-600); font-size:14px;}
+    .hero-hl-row:last-child{border-bottom:0;}
+    .hero-hl-row > span:last-child{color:var(--navy); font-weight:700;}
+    .hero-hl-row.acc > span:last-child{color:var(--primary);}
+    .trust-row{display:flex; justify-content:center; gap:10px; color:var(--gray-500); font-size:11px; font-weight:800; letter-spacing:.12em; flex-wrap:wrap;}
+
+    .projects-main{padding:90px 0 40px;}
+    .projects-section-head{text-align:center; max-width:720px; margin:0 auto 52px;}
+    .projects-section-head h2{font-size:44px; line-height:1.05; letter-spacing:-.03em; color:var(--navy); font-weight:800; margin:6px 0 12px;}
+    .projects-section-head p{font-size:17px; color:var(--gray-500); line-height:1.7;}
+
+    .project-split{display:grid; grid-template-columns:1fr 1fr; gap:56px; padding:40px 44px; background:#fff; border-radius:24px; box-shadow:var(--shadow-md); border:1px solid var(--gray-100); margin-bottom:36px; align-items:center;}
+    .project-split.reverse > :first-child{order:2;}
+    .project-split-media{position:relative; overflow:hidden; border-radius:18px; aspect-ratio:4/3;}
+    .project-split-media img{width:100%; height:100%; object-fit:cover; transition:transform .4s ease;}
+    .project-split:hover .project-split-media img{transform:scale(1.05);}
+    .project-split-tags{position:absolute; top:14px; left:14px; display:flex; gap:6px; flex-wrap:wrap;}
+    .project-split-tags span{padding:6px 12px; border-radius:999px; background:var(--navy); color:#fff; font-size:11px; font-weight:800; letter-spacing:.04em; backdrop-filter:blur(4px);}
+    .project-split-body h3{font-size:26px; line-height:1.2; color:var(--navy); font-weight:800; letter-spacing:-.02em; margin-bottom:12px;}
+    .project-split-body p{font-size:15.5px; line-height:1.75; color:var(--gray-600); margin-bottom:18px;}
+    .project-split-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;}
+
+    /* Dashboard horizontal carousel (before Let's Connect) */
+    .dash-section{padding:80px 0 30px;}
+    .dash-head{text-align:center; max-width:740px; margin:0 auto 32px;}
+    .dash-head h2{font-size:40px; line-height:1.08; letter-spacing:-.025em; color:var(--navy); font-weight:800; margin:6px 0 12px;}
+    .dash-head p{font-size:16px; color:var(--gray-500); line-height:1.7;}
+    .dash-scroll-wrap{position:relative; padding:0 6px;}
+    .dash-scroll{display:flex; gap:20px; overflow-x:auto; padding:24px 22px 34px; scroll-snap-type:x mandatory; scroll-behavior:smooth;}
+    .dash-scroll::-webkit-scrollbar{display:none;}
+    .dash-card{min-width:calc((100% / 3) - 14px); background:#fff; border-radius:18px; overflow:hidden; border:1px solid var(--gray-100); box-shadow:var(--shadow-sm); scroll-snap-align:center; display:flex; flex-direction:column; transition:all .3s;}
+    .dash-card:hover{transform:translateY(-4px); box-shadow:var(--shadow-lg);}
+    .dash-card-media{aspect-ratio:16/10; overflow:hidden;}
+    .dash-card-media img{width:100%; height:100%; object-fit:cover; object-position:top; transition:transform .4s;}
+    .dash-card:hover .dash-card-media img{transform:scale(1.05);}
+    .dash-card-body{padding:20px 22px 24px; text-align:center;}
+    .dash-card-body h3{font-size:16px; font-weight:800; color:var(--navy); margin-bottom:6px;}
+    .dash-card-tool{display:inline-block; margin-top:6px; font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500); text-transform:uppercase;}
+    .dash-actions{margin-top:12px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;}
+    .dash-btn{display:inline-flex; align-items:center; gap:6px; padding:10px 16px; border-radius:10px; background:#fff; color:var(--navy); border:1.5px solid var(--gray-200); font-weight:700; font-size:13px; transition:all .2s;}
+    .dash-btn:hover{border-color:var(--navy); transform:translateY(-1px);}
+    .dash-controls{position:relative; margin-top:-30px; pointer-events:none;}
+    .dash-chev{pointer-events:auto; position:absolute; transform:translateY(-180px); width:44px; height:44px; border-radius:10px; border:1px solid var(--gray-100); background:rgba(255,255,255,.95); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(16,24,40,.08); color:var(--navy); font-size:14px; cursor:pointer; transition:all .2s;}
+    .dash-chev:hover{background:var(--navy); color:#fff;}
+    .dash-chev.left{left:-4px;}
+    .dash-chev.right{right:-4px;}
+
+    /* Let's Connect (same 2-col split as home — right column now holds ring infographic, not form) */
+    .connect-section{padding:80px 0 110px;}
+    .connect-inner{display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start;}
+    .connect-text h2{font-size:42px; line-height:1.05; letter-spacing:-.03em; color:var(--navy); font-weight:800; margin:6px 0 18px;}
+    .connect-text p{font-size:16.5px; line-height:1.75; color:var(--gray-600); margin-bottom:24px;}
+    /*
+    .connect-channels{margin-top:32px; border-top:1px solid var(--gray-100); padding-top:28px; display:flex; flex-direction:column; gap:18px;}
+    .connect-channel{display:flex; align-items:center; gap:14px;}
+    .connect-channel > i{width:46px; height:46px; border-radius:10px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;}
+    .connect-channel > div{display:flex; flex-direction:column; gap:4px;}
+    .connect-channel span:first-child{display:block; font-size:12px; font-weight:800; color:var(--gray-500); letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px;}
+    .connect-channel a{font-weight:700; color:var(--navy); font-size:15px;}
+    .connect-channel a:hover{color:var(--primary);}
+    */
+    /*
+    .connect-form-wrap{background:linear-gradient(180deg, var(--primary-soft), #D9E7FF); border-radius:22px; padding:40px; border:1px solid rgba(11,96,234,.14);}
+    .connect-form{display:flex; flex-direction:column; gap:20px;}
+    .connect-form .row{display:flex; flex-direction:column; gap:8px;}
+    .connect-form label{font-size:14px; font-weight:800; color:var(--navy);}
+    .connect-form input,.connect-form textarea{width:100%; padding:14px 16px; border-radius:12px; border:1.5px solid rgba(255,255,255,.7); background:#fff; font-family:inherit; font-size:15px; color:var(--text); outline:none; transition:all .2s;}
+    .connect-form input:focus,.connect-form textarea:focus{border-color:var(--primary); box-shadow:0 0 0 3px rgba(11,96,234,.12);}
+    .connect-form textarea{min-height:120px; resize:vertical;}
+    */
+
+    .footer-brand .brand-desc{margin-top:0; padding-top:0;}
+
+    @media (max-width:1100px){
+      .page-hero-inner,.project-split,.connect-inner{grid-template-columns:1fr; gap:36px;}
+      .page-hero-title{font-size:56px;}
+      .dash-card{min-width:calc(50% - 10px);}
+    }
+    @media (max-width:768px){
+      .page-hero{padding:56px 0 66px;}
+      .page-hero-title{font-size:42px;}
+      .projects-section-head h2{font-size:30px;}
+      .dash-head h2{font-size:28px;}
+      .connect-text h2{font-size:28px;}
+      .project-split{padding:22px;}
+      .project-split-body h3{font-size:20px;}
+      .hero-stats-row{grid-template-columns:1fr 1fr; gap:10px;}
+      .dash-card{min-width:86%;}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV (same as home page with absolute paths for subdir) -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle-p" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
         <ul class="nav-links" id="nav-links-p">
-          <!-- <li><a href="/">Home</a></li> -->
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
           <li><a href="/projects/">Projects</a></li>
-          <li><a href="#contact">Let's Connect</a></li>
-          <!-- <li><a href="contacts.html">Contact Me</a></li> -->
         </ul>
+        <a href="/projects/#contact" class="nav-cta">Let's Talk</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <header class="page-hero">
-      <div class="container">
-        <h1 class="page-title">My Projects</h1>
-        <p class="centertext">A showcase of diverse projects demonstrating analytical expertise in exploring data, generating insights, 
-          and supporting business decisions through analysis, visualization, and business intelligence.</p>
-      </div>
-    </header>
+  <!-- 2-COL SPLIT HERO (matches home page hero card layout exactly) -->
+  <section class="page-hero">
+    <div class="container page-hero-inner">
 
-    <main class="container projects-list">
-      <article class="project card">
-        <div class="project-media">
-          <img src="/assets/hb.jpg" alt="E-Commerce Analytics Dashboard">
+      
+      <div class="page-hero-text">
+        <span class="eyebrow">PROJECTS & CASE STUDIES</span>
+        <h1 class="page-hero-title">Real data.<br>Real results.<br>See the work.</h1>
+        <p class="page-hero-sub">
+          A deep-dive portfolio of end-to-end data projects — from warehouse architecture and pipeline engineering to BI dashboards
+          and customer-facing analytics.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-dark" href="https://drive.google.com/file/d/1OlX21AsNMhvateDSu1DNhUkpljYFo-KE/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            View CV <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a class="btn btn-outline" href="/">
+            Back to Home <i class="fa-solid fa-arrow-right"></i>
+          </a>
         </div>
-        <div class="project-body">
-          <h2>HOTEL BOOKING ANALYSIS</h2>
-          <p class="justify">Comprehensive Hotel booking analysis using Python to explore booking trends, guest profile, cancellation behaviour,
-            and revenue performance, generating actionable insights to improve operations and revenue management.</p>
-          <div class="tags">
+      </div>
+
+      <!-- <div class="hero-stats-card">
+        <div class="hero-stats-head">
+          <i class="fa-solid fa-folder-open"></i>
+          <div>
+            <small>PROJECT PORTFOLIO</small>
+            <strong>Selected Work, 2022–2026</strong>
+          </div>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat">
+            <small>END‑TO‑END PROJECTS</small>
+            <strong>20+ <i class="fa-solid fa-bolt"></i></strong>
+          </div>
+          <div class="hero-stat">
+            <small>DASHBOARDS SHIPPED</small>
+            <strong>40+ <i class="fa-solid fa-chart-line"></i></strong>
+          </div>
+        </div>
+        <div class="hero-hl">
+          <div class="hero-hl-row"><span>Analysis</span><span>Exploratory & Diagnostic</span></div>
+          <div class="hero-hl-row"><span>Engineering</span><span>ETL · Modeling · SQL</span></div>
+          <div class="hero-hl-row acc"><span>Delivery</span><span><i class="fa-solid fa-check"></i> On Time, On Budget</span></div>
+        </div>
+        <a href="#project-list" class="btn btn-orange btn-block">Browse Projects</a>
+        <div class="trust-row" style="margin-top:18px;">
+          <span>POWER BI</span><span>•</span><span>LOOKER</span><span>•</span><span>PYTHON</span><span>•</span><span>SQL</span>
+        </div>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- PROJECTS LIST -->
+  <main id="project-list" class="projects-main">
+    <div class="container">
+      <div class="projects-section-head">
+        <span class="eyebrow">PROFESSIONAL EXPERIENCE</span>
+        <h2>Production systems.<br>Real business problems.</h2>
+        <p>Selected analytics engineering and data projects delivered in professional environments. These case studies focus on the problems solved, technical decisions made, and outcomes delivered, with proprietary information omitted where necessary.</p>
+      </div>
+
+      <article class="project-split">
+        <div class="project-split-media">
+          <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=3d+isometric+blue+tech+illustration+of+a+central+layered+platform+core+with+four+plain+abstract+chip+nodes+on+a+navy+grid+floor%2C+navy+and+blue+palette%2C+clean+corporate+style%2C+no+text%2C+no+labels%2C+no+words%2C+no+letters%2C+no+typography%2C+no+logos%2C+no+branding%2C+no+ui%2C+no+screens%2C+no+captions%2C+smooth+plastic+materials&image_size=landscape_16_9" alt="Multi-Agent Data &amp; Operations Platform">
+          <!-- <div class="project-split-tags">
+            <span>AI Data &amp; Operations Assistant</span>
+          </div> -->
+        </div>
+        <div class="project-split-body">
+          <h3>MULTI-AGENT DATA &amp; OPERATIONS PLATFORM</h3>
+          <p>
+            Built a multi-agent internal AI platform that connects business, analytics, engineering, support, and reconciliation
+            workflows through Slack and an API layer. Specialized agents interact with internal systems through MCP and plugins
+            to query data, troubleshoot infrastructure, automate workflows, and reconcile transactions against the warehouse.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
+            <span class="tag">OpenClaw</span>
+            <span class="tag">MCP</span>
+            <span class="tag">Slack</span>
+            <span class="tag">AI Agents</span>
+          </div>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="/projects/multi-agent-data-operations-platform/">
+              View Case Study <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-split reverse">
+        <div class="project-split-media">
+          <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=clean%20modern%20blue%20fintech%20analytics%20icon%20illustration%20showing%20stacked%20coins%20upward%20trend%20line%20pricing%20gauge%20and%20transaction%20nodes%20minimal%20enterprise%20style%20soft%20blue%20background%20no%20text%20no%20labels%20no%20letters&image_size=landscape_4_3" alt="Revenue and pricing analytics icon illustration">
+          <!-- <div class="project-split-tags">
+            <span>Payments Platform</span>
+          </div> -->
+        </div>
+        <div class="project-split-body">
+          <h3>REVENUE &amp; PRICING ANALYTICS</h3>
+          <p>
+            Designed a transaction-level revenue modelling layer for a payments platform, combining merchant-specific pricing,
+            effective-dated configurations, processor costs, and transaction data into analytics-ready datasets.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
+            <span class="tag">SQL</span>
+            <span class="tag">Data Modelling</span>
+            <span class="tag">Analytics & Reporting</span>
+          </div>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="/projects/revenue-pricing-analytics/">
+              View Case Study <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-split">
+        <div class="project-split-media">
+          <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=clean%20technical%203d%20illustration%20of%20cloud%20data%20warehouse%20stacked%20blue%20storage%20nodes%20pipeline%20arrows%20minimal%20enterprise%20data%20architecture%20no%20text%20no%20labels%20no%20letters%20no%20words&image_size=landscape_4_3" alt="Analytics warehouse layered architecture diagram">
+          <!-- <div class="project-split-tags">
+            <span>Analytics Platform</span>
+          </div> -->
+        </div>
+        <div class="project-split-body">
+          <h3>ANALYTICS DATA WAREHOUSE</h3>
+          <p>
+            Designed and developed a ClickHouse analytics warehouse consolidating data from multiple operational databases into a central analytical platform,
+            with source-aligned and derived datasets optimized for reporting, cross-system analysis, and downstream analytics.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
+            <span class="tag">ClickHouse</span>
+            <span class="tag">Data Warehousing</span>
+            <span class="tag">Airbyte</span>
+            <span class="tag">Python</span>
+          </div>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="/projects/analytics-data-warehouse/">
+              View Case Study <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- <article class="project-split reverse">
+        <div class="project-split-media">
+          <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=technical%20illustration%20change%20data%20capture%20replication%20pipeline%20between%20relational%20database%20servers%20and%20columnar%20analytical%20warehouse%20blue%20flowing%20arrows%20nodes%20data%20engineering%20visual&image_size=landscape_4_3" alt="CDC data replication pipeline visualization">
+          <div class="project-split-tags">
+            <span>Data Engineering</span>
+          </div>
+        </div>
+        <div class="project-split-body">
+          <h3>CDC DATA PIPELINE</h3>
+          <p>
+            Engineered incremental data replication pipelines from operational databases into ClickHouse, addressing schema changes,
+            cursor state, duplicate records, and data consistency across high-volume datasets.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
+            <span class="tag">Airbyte</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">ClickHouse</span>
+            <span class="tag">CDC</span>
+          </div>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="/projects/cdc-data-pipeline/">
+              View Case Study <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article> -->
+
+      <article class="project-split reverse">
+         <div class="project-split-media">
+          <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=data%20engineering%20illustration%20hot%20to%20cold%20cloud%20archival%20workflow%20database%20server%20racks%20with%20blue%20arrows%20flowing%20to%20object%20storage%20buckets%20clean%20minimal%20navy%20palette&image_size=landscape_4_3" alt="Data archival hot to cold storage workflow visualization">
+        </div>
+        <div class="project-split-body">
+          <h3>DATA ARCHIVAL PIPELINE</h3>
+          <p>
+            Built a hot-to-cold archival workflow to move historical data from operational databases to object storage
+            while reducing the footprint of production systems.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
+            <span class="tag">Python</span>
+            <span class="tag">Amazon S3</span>
+            <span class="tag">Data Engineering</span>
+          </div>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="/projects/data-archival-pipeline/">
+              View Case Study <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+       
+      </article>
+
+      <div class="projects-section-head">
+        <span class="eyebrow">INDEPENDENT PROJECTS</span>
+        <h2>Delivered projects that drove measurable outcomes.</h2>
+        <p>Projects built independently to explore data, analytics, and engineering problems.</p>
+      </div>
+
+      <article class="project-split">
+        <div class="project-split-media">
+          <img src="/assets/hb.jpg" alt="Hotel Bookings project thumbnail">
+          <!-- <div class="project-split-tags">
+            <span>Python</span><span>Hospitality</span>
+          </div> -->
+        </div>
+        <div class="project-split-body">
+          <h3>HOTEL BOOKING ANALYSIS</h3>
+          <p>
+            Comprehensive hotel booking analysis using Python to explore booking trends, guest profiles, cancellation
+            behaviour, and revenue performance — generating actionable insights to improve operations and revenue management.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
             <span class="tag">Pandas</span>
             <span class="tag">Matplotlib</span>
             <span class="tag">Seaborn</span>
           </div>
-          <div class="project-actions">
-            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Hotel-Booking-Analysis.git" target="_blank" rel="noopener noreferrer">View Project ↗</a>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="https://github.com/AdesanyaAzeez/Hotel-Booking-Analysis.git" target="_blank" rel="noopener noreferrer">
+              View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
           </div>
         </div>
       </article>
 
-      <article class="project card">
-        <div class="project-body">
-          <h2>HEALTH CRISIS IN AFRICA</h2>
-          <p class="justify">An in-depth analysis of public health and socioeconomic indicators including disease prevalence, 
-            healthcare access, GDP, and workforce statistics to identify key factors contributing to Africa's 
-            health challenges.</p>
-          <div class="tags">
+      <article class="project-split reverse">
+        <div class="project-split-media">
+          <img src="/assets/healthcrisis.jpg" alt="Healthcare crisis analysis thumbnail">
+          <!-- <div class="project-split-tags">
+            <span>Power BI</span><span>Healthcare</span>
+          </div> -->
+        </div>
+        <div class="project-split-body">
+          <h3>HEALTH CRISIS IN AFRICA</h3>
+          <p>
+            An in-depth analysis of public health and socioeconomic indicators including disease prevalence, healthcare access, GDP,
+            and workforce statistics to identify the key factors contributing to Africa's health challenges — with a
+            Power BI dashboard and a Medium write-up.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
             <span class="tag">Power BI</span>
             <span class="tag">Excel</span>
             <span class="tag">Power Query</span>
           </div>
-          <div class="project-actions">
-            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Health_Crisis_In_Africa" target="_blank" rel="noopener noreferrer">View Project ↗</a>
-            <a class="btn outline" href="https://medium.com/@adesanyaabdulazeez/health-crisis-in-africa-6ce1ef83f075" target="_blank" rel="noopener noreferrer">Read More ↗</a>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="https://github.com/AdesanyaAzeez/Health_Crisis_In_Africa" target="_blank" rel="noopener noreferrer">
+              View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="dash-btn" href="https://medium.com/@adesanyaabdulazeez/health-crisis-in-africa-6ce1ef83f075" target="_blank" rel="noopener noreferrer">
+              Read Write-up <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
           </div>
-        </div>
-        <div class="project-media">
-          <img src="/assets/healthcrisis.jpg" alt="Financial Data Analysis Platform">
         </div>
       </article>
 
-      <article class="project card">
-        <div class="project-media">
-          <img src="/assets/datanorm.png" alt="Healthcare Insights System">
+      <article class="project-split">
+        <div class="project-split-media">
+          <img src="/assets/datanorm.png" alt="SQL data normalization thumbnail">
+          <!-- <div class="project-split-tags">
+            <span>SQL</span><span>Data Modeling</span>
+          </div> -->
         </div>
-        <div class="project-body">
-          <h2>DATA NORMALIZATION</h2>
-          <p class="justify">Clean, well-structured data is the backbone of accurate analysis and informed decision-making. 
-            In this project, I used SQL to normalize a complex dataset, breaking it into related tables to ensure consistency, 
-            eliminate redundancy, and enable efficient data querying and reporting.</p>
-          <div class="tags">
+        <div class="project-split-body">
+          <h3>DATA NORMALIZATION WITH SQL</h3>
+          <p>
+            Clean, well-structured data is the backbone of accurate analysis and informed decision-making. In this project,
+            I used SQL to normalize a complex dataset, breaking it into related tables to ensure consistency,
+            eliminate redundancy, and enable efficient data querying and reporting.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
             <span class="tag">SQL</span>
             <span class="tag">Data Modeling</span>
           </div>
-          <div class="project-actions">
-            <a class="btn outline" href="https://medium.com/@adesanyaabdulazeez/data-normalization-with-sql-59cb75829822" target="_blank" rel="noopener noreferrer">Read More ↗</a>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="https://medium.com/@adesanyaabdulazeez/data-normalization-with-sql-59cb75829822" target="_blank" rel="noopener noreferrer">
+              Read Write-up <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
           </div>
         </div>
       </article>
 
-      <article class="project card">
-        <div class="project-body">
-          <h2>PAPER STORE ORDERS REPORT</h2>
-          <p class="justify">Extracted and transformed data from a store database to analyze and visualize 
-            insights, showing key metrics, trends, and patterns to better understand order behaviours.</p>
-          <div class="tags">
+      <article class="project-split reverse">
+        <div class="project-split-media">
+          <img src="/assets/paperstore.jpg" alt="Paper store orders project thumbnail">
+          <!-- <div class="project-split-tags">
+            <span>SQL</span><span>Looker Studio</span>
+          </div> -->
+        </div>
+        <div class="project-split-body">
+          <h3>PAPER STORE ORDERS REPORT</h3>
+          <p>
+            Extracted and transformed data from a real store database (Parch & Posey) to analyze and visualize insights,
+            showing key metrics, trends, and patterns to better understand order behaviors across regions, reps, and products.
+          </p>
+          <div class="about-tags" style="margin:0 0 6px;">
             <span class="tag">SQL</span>
             <span class="tag">Looker Studio</span>
             <span class="tag">Google Sheets</span>
           </div>
-          <div class="project-actions">
-            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Parch-and-Posey-Store--Database-Querying" target="_blank" rel="noopener noreferrer">View Project ↗</a>
-            <a class="btn outline" href="https://lookerstudio.google.com/u/0/reporting/2018cf9a-99f1-4543-8f6e-94f24b57d470/page/MBlQD" target="_blank" rel="noopener noreferrer">Dashboard ↗</a>
+          <div class="project-split-actions">
+            <a class="dash-btn" href="https://github.com/AdesanyaAzeez/Parch-and-Posey-Store--Database-Querying" target="_blank" rel="noopener noreferrer">
+              View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="dash-btn" href="https://lookerstudio.google.com/u/0/reporting/2018cf9a-99f1-4543-8f6e-94f24b57d470/page/MBlQD" target="_blank" rel="noopener noreferrer">
+              Open Dashboard <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
           </div>
-        </div>
-        <div class="project-media">
-          <img src="/assets/paperstore.jpg" alt="Healthcare Insights System">
         </div>
       </article>
-    </main>
+    </div>
+  </main>
 
-    <!-- Featured Dashboards (carousel) -->
-  <section class="container carousel">
-  <h2 class="carousel-title">Featured Dashboards</h2>
-  <p class="muted carousel-sub">Interactive dashboards and reports delivering insights through data visualization</p>
-      <div class="carousel-scroll" id="dash-scroll">
-
-        <div class="carousel-card">
-          <div>
-            <img style="object-fit:cover; object-position: top;" src="/assets/hotelbkn.jpg" alt="Business Intelligence Suite">
+  <!-- DASHBOARD HORIZONTAL CAROUSEL (before Let's Connect, as requested) -->
+  <section class="dash-section container">
+    <div class="dash-head">
+      <span class="eyebrow">FEATURED DASHBOARDS</span>
+      <h2>Interactive reports teams use every single day.</h2>
+      <p>A snapshot of published dashboards — from retail sales tracking to collision analysis — built in Power BI and Looker Studio.</p>
+    </div>
+    <div class="dash-scroll-wrap">
+      <div class="dash-scroll" id="dash-scroll">
+        <div class="dash-card">
+          <div class="dash-card-media">
+            <img src="/assets/hotelbkn.jpg" alt="Hotel Bookings Report thumbnail">
           </div>
-          <h3>
-            <a class="btn outline" href="https://lookerstudio.google.com/s/nXxLUy1HSAw" target="_blank" rel="noopener noreferrer">
-              HOTEL BOOKINGS REPORT
-            </a>
-          </h3>
-          <p class="muted">LOOKER STUDIO</p>
-        </div>
-      
-        <div class="carousel-card">
-          <div>
-            <img style="object-fit:cover; object-position: top;" src="/assets/Jazzra Store Report.jpeg" alt="Store Dashboard">
+          <div class="dash-card-body">
+            <h3>HOTEL BOOKINGS REPORT</h3>
+            <span class="dash-card-tool">Looker Studio</span>
+            <div class="dash-actions">
+              <a class="dash-btn" href="https://lookerstudio.google.com/s/nXxLUy1HSAw" target="_blank" rel="noopener noreferrer">
+                Open Dashboard <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
           </div>
-          <h3>
-            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/main/SuperStore%20Dashboard" target="_blank" rel="noopener noreferrer">
-              SUPERSTORE DASHBOARD
-            </a>
-          </h3>
-          <p class="muted">POWER BI</p>
         </div>
-
-        <div class="carousel-card">
-          <div>
-            <img style="object-fit:cover; object-position: top;"src="\assets\NYC_Collisions.jpeg" alt="Sales Dashboard">
+        <div class="dash-card">
+          <div class="dash-card-media">
+            <img src="/assets/Jazzra Store Report.jpeg" alt="SuperStore Dashboard thumbnail">
           </div>
-          <h3>
-            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/aa3774cbda0264001a6b4e3094d01ff000b52c72/NYC%20Motor%20Collision" target="_blank" rel="noopener noreferrer">
-              NYC COLLISIONS REPORT
-            </a>
-          </h3>
-          <p class="muted">POWER BI</p>
-        </div>
-
-        <div class="carousel-card">
-          <div>
-            <img style="object-fit:cover; object-position: top;" src="/assets/adsrept.jpg" alt="Marketing Dashboard">
+          <div class="dash-card-body">
+            <h3>SUPERSTORE DASHBOARD</h3>
+            <span class="dash-card-tool">Power BI</span>
+            <div class="dash-actions">
+              <a class="dash-btn" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/main/SuperStore%20Dashboard" target="_blank" rel="noopener noreferrer">
+                Open Dashboard <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
           </div>
-          <h3>
-            <a class="btn outline" href="https://lookerstudio.google.com/s/psrjAXM-wXM" target="_blank" rel="noopener noreferrer">
-              ONLINE ADS REPORT
-            </a>
-          </h3>
-          <p class="muted">LOOKER STUDIO</p>
         </div>
-
-        <div class="carousel-card">
-          <div>
-            <img style="object-fit:cover; object-position: top;"src="/assets/electstore.png" alt="Sales Dashboard">
+        <div class="dash-card">
+          <div class="dash-card-media">
+            <img src="/assets/NYC_Collisions.jpeg" alt="NYC Collisions Report thumbnail">
           </div>
-          <h3>
-            <a class="btn outline" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/main/Electronic%20Store%20Sales%20Analysis" target="_blank" rel="noopener noreferrer">
-              ELECTRONIC STORE SALES REPORT
-            </a>
-          </h3>
-          <p class="muted">POWER BI</p>
+          <div class="dash-card-body">
+            <h3>NYC COLLISIONS REPORT</h3>
+            <span class="dash-card-tool">Power BI</span>
+            <div class="dash-actions">
+              <a class="dash-btn" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/aa3774cbda0264001a6b4e3094d01ff000b52c72/NYC%20Motor%20Collision" target="_blank" rel="noopener noreferrer">
+                Open Dashboard <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
         </div>
-
+        <div class="dash-card">
+          <div class="dash-card-media">
+            <img src="/assets/adsrept.jpg" alt="Online Ads Report thumbnail">
+          </div>
+          <div class="dash-card-body">
+            <h3>ONLINE ADS REPORT</h3>
+            <span class="dash-card-tool">Looker Studio</span>
+            <div class="dash-actions">
+              <a class="dash-btn" href="https://lookerstudio.google.com/s/psrjAXM-wXM" target="_blank" rel="noopener noreferrer">
+                Open Dashboard <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-media">
+            <img src="/assets/electstore.png" alt="Electronic Store Sales Report thumbnail">
+          </div>
+          <div class="dash-card-body">
+            <h3>ELECTRONIC STORE SALES REPORT</h3>
+            <span class="dash-card-tool">Power BI</span>
+            <div class="dash-actions">
+              <a class="dash-btn" href="https://github.com/AdesanyaAzeez/Data-Visualizations/tree/main/Electronic%20Store%20Sales%20Analysis" target="_blank" rel="noopener noreferrer">
+                Open Dashboard <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="carousel-controls">
-        <button class="carousel-button left" id="dash-left" aria-label="Scroll dashboards left">◀</button>
-        <button class="carousel-button right" id="dash-right" aria-label="Scroll dashboards right">▶</button>
+      <div class="dash-controls">
+        <button class="dash-chev left" id="dash-left" aria-label="Scroll dashboards left">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="dash-chev right" id="dash-right" aria-label="Scroll dashboards right">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
+    </div>
   </section>
 
-    <footer id="contact" class="site-footer simple">
-      <div class="container footer-inner">
-        <div class="connect">
-          <h3>Let's Connect</h3>
-          <span class="muted">
-            Let’s connect to discuss data, projects, or ways we can work together. I’d love to hear from you!
-          </span>
-          <div class="socials">
-            <a class="icon" href="mailto:adesanya240@gmail.com" aria-label="Email">
-              <i class="fa-regular fa-envelope"></i>
-            </a>
-            <a class="icon" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <i class="fa-brands fa-linkedin"></i>
-            </a>
-            <a class="icon" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <i class="fa-brands fa-github"></i>
-            </a>
-            <a class="icon" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X">
-              <i class="fa-brands fa-x-twitter"></i>
-            </a>
-            <a class="icon" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium">
-              <i class="fa-brands fa-medium"></i>
-            </a>
-          </div>
-          <div class="copyright-footer">© 2026 AbdulAzeez Adesanya</div>
+  <!-- LET'S CONNECT (same peach-form 2-col split as home) -->
+  <section id="contact" class="connect-section">
+    <div class="container connect-inner">
+      <div class="connect-text">
+        <span class="eyebrow">LET'S CONNECT</span>
+        <h2>Have a data problem that needs a hand?</h2>
+        <p>
+          Whether you're hiring, contracting, or just want to chat through a project idea — I'd love to hear about it.
+          Drop a message below, hit my email, or reach me on LinkedIn and I'll get back within 24 hours.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-dark" href="mailto:adesanya240@gmail.com">
+            Email Me <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">
+            LinkedIn <i class="fa-solid fa-arrow-right"></i>
+          </a>
         </div>
       </div>
-    </footer>
+      <div class="comm-ring">
+        <div class="comm-wrap">
+          <div class="ring-orbit"></div>
+          <div class="ring-node n-top" aria-hidden="true">
+            <i class="fa-brands fa-linkedin"></i>
+          </div>
+          <div class="ring-node n-right" aria-hidden="true">
+            <i class="fa-brands fa-x-twitter"></i>
+          </div>
+          <div class="ring-node n-bottom" aria-hidden="true">
+            <i class="fa-brands fa-github"></i>
+          </div>
+          <div class="ring-node n-left" aria-hidden="true">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div class="ring-center">
+            <div class="ring-cluster">
+              <div class="ring-avatar c1"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="ring-avatar c2"><i class="fa-solid fa-user"></i></div>
+              <div class="ring-avatar c3"><i class="fa-solid fa-user-graduate"></i></div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="ring-caption">Let's Connect · Pick any channel</div> -->
+      </div>
+    </div>
+  </section>
 
-    <script>
-      // mobile toggle
-      document.getElementById('mobile-toggle-p').addEventListener('click', function(){
-        document.getElementById('nav-links-p').classList.toggle('open');
+  <!-- FOOTER (EXACT SAME 3-COL NAVY FOOTER (BRAND + EXPLORE + CONNECT, NO SERVICES/LOGO) -->
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 AbdulAzeez Adesanya. All rights reserved.</span>
+        <span>Built with data. Delivered with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* Mobile nav toggle */
+    const toggleP = document.getElementById('mobile-toggle-p');
+    const navLinksP = document.getElementById('nav-links-p');
+    if (toggleP && navLinksP) {
+      toggleP.addEventListener('click', () => navLinksP.classList.toggle('open'));
+      document.querySelectorAll('#nav-links-p a').forEach(link => {
+        link.addEventListener('click', () => navLinksP.classList.remove('open'));
       });
-
-      // Dashboards carousel controls
-      const dashScroll = document.getElementById('dash-scroll');
-      const dashLeft = document.getElementById('dash-left');
-      const dashRight = document.getElementById('dash-right');
-      if (dashLeft && dashRight && dashScroll) {
-        // Scroll by the visible width of the carousel (approx one "page") so arrow jumps a group
-        const scrollAmount = () => Math.floor(dashScroll.offsetWidth * 0.98);
-        dashLeft.addEventListener('click', () => dashScroll.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
-        dashRight.addEventListener('click', () => dashScroll.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
-      }
-    </script>
-  </body>
+    }
+    /* Dashboard carousel smooth scroll by ~1 viewport width per click */
+    const dashScroll = document.getElementById('dash-scroll');
+    const dashLeft   = document.getElementById('dash-left');
+    const dashRight  = document.getElementById('dash-right');
+    if (dashScroll && dashLeft && dashRight) {
+      const off = () => Math.floor(dashScroll.offsetWidth * 0.98);
+      dashLeft.addEventListener('click',  () => dashScroll.scrollBy({ left: -off(), behavior: 'smooth' }));
+      dashRight.addEventListener('click', () => dashScroll.scrollBy({ left:  off(), behavior: 'smooth' }));
+    }
+  </script>
+</body>
 </html>

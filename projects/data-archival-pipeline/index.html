@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <title>Data Archival Pipeline — Case Study | AbdulAzeez Adesanya</title>
+  <meta name="description" content="Case study: a hot-to-cold archival workflow to move historical data from operational databases to object storage in Amazon S3 while reducing the footprint of production systems." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-hero{padding:90px 0 110px; background:
+        radial-gradient(ellipse 60% 60% at 100% 0%, rgba(11,96,234,.10), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(11,96,234,.06), transparent 60%),
+        linear-gradient(180deg, #FBFDFF 0%, #FFFFFF 100%);}
+    .page-hero-inner{max-width:880px; margin:0 auto;}
+    .breadcrumb{display:flex; align-items:center; gap:8px; color:var(--gray-500); font-size:13px; font-weight:700; margin-bottom:22px; flex-wrap:wrap;}
+    .breadcrumb a{color:var(--primary);}
+    .breadcrumb i{font-size:10px;}
+    .page-hero-title{font-size:60px; line-height:1.02; letter-spacing:-.035em; color:var(--navy); font-weight:900; margin:8px 0 16px;}
+    .page-hero-tagline{font-size:18px; line-height:1.7; color:var(--gray-600); max-width:760px;}
+    .hero-badges{display:flex; flex-wrap:wrap; gap:52px; margin-top:38px;}
+    .hero-badges span{font-weight:700; font-size:17px; letter-spacing:-.01em; color:var(--navy);}
+    .cs-meta-wrap{margin-top:-54px; position:relative; z-index:3;}
+    .case-study-meta{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; background:#fff; padding:26px 28px; border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md);}
+    .cs-meta-item{display:flex; align-items:flex-start; gap:12px;}
+    .cs-meta-item > i{width:40px; height:40px; border-radius:10px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+    .cs-meta-item small{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500); text-transform:uppercase; margin-bottom:4px; display:block;}
+    .cs-meta-item strong{font-size:14px; font-weight:800; color:var(--navy); line-height:1.4;}
+    .case-study{padding:72px 0 20px;}
+    .cs-inner{max-width:880px; margin:0 auto;}
+    .cs-block{margin-bottom:64px;}
+    .cs-block h3{font-size:24px; color:var(--navy); font-weight:800; letter-spacing:-.02em; margin-bottom:20px; display:flex; align-items:center;}
+    .cs-block h3::before{content:""; display:inline-block; width:5px; height:20px; background:var(--primary); border-radius:2px; margin-right:14px;}
+    .cs-block > p{font-size:16px; color:var(--gray-600); line-height:1.78; margin-bottom:14px;}
+    .cs-block ul{margin:8px 0 0; padding-left:22px;}
+    .cs-block li{margin-bottom:12px; color:var(--gray-600); line-height:1.72; font-size:15.5px;}
+    .cs-block li strong{color:var(--navy); font-weight:800;}
+    .cs-visual{border-radius:20px; overflow:hidden; border:1px solid var(--gray-100); box-shadow:var(--shadow-md); margin:22px 0 8px; background:#fff; padding:8px;}
+    .cs-visual img{width:100%; height:auto; border-radius:14px; display:block;}
+    .summary-arch{border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md); margin:22px 0 8px; background:#fff; padding:28px 30px;}
+    .summary-arch-title{font-size:13px; font-weight:800; color:var(--primary); letter-spacing:.1em; text-transform:uppercase; margin:0 0 20px;}
+    .arch-flow{display:flex; flex-direction:column; gap:0;}
+    .arch-node{background:#fff; border:1.5px solid var(--primary-600); color:var(--navy); border-radius:14px; padding:14px 18px; text-align:center; font-weight:800; font-size:16px; letter-spacing:-.01em; box-shadow:0 4px 14px rgba(11,96,234,.08);}
+    .arch-node.alt{background:var(--primary-soft); border-color:rgba(11,96,234,.35);}
+    .arch-node.hl{background:var(--primary); color:#fff; border-color:var(--primary);}
+    .arch-arrow{text-align:center; color:var(--primary); font-size:14px; line-height:1; padding:6px 0;}
+    .arch-arrow small{display:block; margin-top:6px; color:var(--gray-500); letter-spacing:.02em; font-weight:700;}
+    .arch-split{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    .arch-caption{font-size:12px; color:var(--gray-500); text-align:center; margin-top:14px; letter-spacing:.05em; font-weight:700; text-transform:uppercase;}
+    .cs-outcomes{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:8px;}
+    .outcome-card{background:var(--primary-soft); border-radius:16px; padding:22px 22px 20px; border:1px solid rgba(11,96,234,.12);}
+    .outcome-card .num{font-size:32px; line-height:1; color:var(--primary); font-weight:900; letter-spacing:-.02em; margin-bottom:10px;}
+    .outcome-card p{font-size:14px; color:var(--navy); font-weight:700; line-height:1.55; margin:0;}
+    .stack-group{margin-bottom:16px; background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:22px 26px; box-shadow:var(--shadow-sm);}
+    .stack-group h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px;}
+    .stack-tools{display:flex; flex-wrap:wrap; gap:24px; font-size:16px; font-weight:700; color:var(--navy); letter-spacing:-.01em;}
+    .stack-tools .with-icon{display:inline-flex; align-items:center;}
+    .stack-tools img{margin-right:8px;}
+    .sanitized-note{margin-top:16px; background:#fff; border:1px dashed var(--primary); border-radius:14px; padding:20px 24px;}
+    .sanitized-note h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px; display:flex; align-items:center; gap:8px;}
+    .sanitized-note p{margin:0; font-size:15px; color:var(--gray-600); line-height:1.7;}
+    .cs-cta-bar{display:flex; gap:12px; margin:40px 0 60px; flex-wrap:wrap;}
+
+
+    @media (max-width:1100px){
+      .case-study-meta{grid-template-columns:1fr 1fr;}
+      .cs-outcomes{grid-template-columns:1fr;}
+      .page-hero-title{font-size:48px;}
+      .hero-badges{gap:34px;}
+    }
+    @media (max-width:768px){
+      .page-hero{padding:56px 0 80px;}
+      .page-hero-title{font-size:36px;}
+      .case-study-meta{grid-template-columns:1fr;}
+      .cs-block h3{font-size:20px;}
+      .cs-meta-wrap{margin-top:-36px;}
+      .hero-badges{gap:22px; margin-top:28px;}
+      .hero-badges span{font-size:15px;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle-a" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links-a">
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="breadcrumb">
+        <a href="/projects/"><i class="fa-solid fa-arrow-left"></i> Projects</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Case Study</span>
+      </div>
+      <span class="eyebrow">INFRASTRUCTURE &amp; COST</span>
+      <h1 class="page-hero-title">Data Archival<br>Pipeline</h1>
+      <p class="page-hero-tagline">
+        A hot-to-cold archival workflow to move historical data from operational databases to durable object storage —
+        shrinking the production footprint, shortening backup and restore times, and materially reducing storage and backup costs.
+      </p>
+      <div class="hero-badges">
+        <span>• Python</span>
+        <span>• Amazon S3</span>
+        <span>• Data Engineering</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container cs-meta-wrap">
+    <div class="case-study-meta">
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-user-tie"></i>
+        <div>
+          <small>Role</small>
+          <strong>Data Archival Engineer</strong>
+        </div>
+      </div>
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-layer-group"></i>
+        <div>
+          <small>Area</small>
+          <strong>Hot / Cold tiering · Storage Optimization</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-study">
+    <div class="container cs-inner">
+      <div class="cs-block">
+        <h3>Context</h3>
+        <p>
+          Several operational databases had accumulated years of high-volume
+          transactional data, increasing the storage footprint of production systems.
+          Much of the historical data was no longer needed for day-to-day operational
+          workloads but still occupied primary database storage.
+        </p>
+        <p>
+          The organisation needed a disciplined hot-to-cold archival programme: move aged rows out of production storage
+          into cheap, durable object storage — with a verifiable, auditable, and practiced restore playbook so nobody
+          felt uncomfortable deleting rows after archiving them.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Problem</h3>
+        <p>
+          Keeping all history on hot operational storage created four compounding problems:
+        </p>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li><strong>Storage &amp; backup cost.</strong> Linear cost growth that was going to get materially worse over the next year.</li>
+          <li><strong>Backup &amp; restore windows.</strong> Full backups were taking hours; restores were operationally painful and slow.</li>
+          <li><strong>OLTP performance.</strong> The largest historical tables pulled cache and IO budget away from recent, customer-impacting queries.</li>
+          <li><strong>Trust &amp; risk.</strong> No one would sign off deleting aged rows because there was no retrieval path with proof of correctness.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Approach</h3>
+        <p>
+          The archival strategy was designed around a simple principle: <strong>move cold data safely, verify its availability in the analytical warehouse, archive it to low-cost object storage, and only then remove it from the operational database.</strong>
+        </p>
+        <ol style="margin:6px 0 0 22px; color:var(--gray-600); font-size:15.5px; line-height:1.75;">
+          <li style="margin-bottom:12px;"><strong>Identify cold data.</strong> Retention rules were applied to identify records that had aged beyond the operational retention window and were no longer required in the hot transactional database.</li>
+          <li style="margin-bottom:12px;"><strong>Extract from the operational database.</strong> Cold records were extracted in controlled batches using the appropriate archival keys. Batching kept the workload predictable and reduced the impact on the operational database.</li>
+          <li style="margin-bottom:12px;"><strong>Verify warehouse availability.</strong> Before removing any records from the hot database, the corresponding data was verified against the analytical warehouse to confirm that the required historical records were already available downstream.</li>
+          <li style="margin-bottom:12px;"><strong>Archive to Amazon S3.</strong> Verified historical data was exported as CSV files and stored in Amazon S3 as the cold-storage layer, providing durable and cost-efficient storage for data that was no longer required in the operational database.</li>
+          <li style="margin-bottom:12px;"><strong>Remove from hot storage.</strong> Deletion from the operational database was performed only after the data had been verified in the warehouse and successfully written to S3.</li>
+        </ol>
+        <p style="margin-top:14px;">
+          This established a controlled <strong>hot → warehouse → cold</strong> lifecycle, reducing the operational storage footprint while preserving historical data for analytics and future retrieval.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Architecture &amp; Implementation</h3>
+        <div class="summary-arch">
+          <div class="summary-arch-title">Summary of Architecture</div>
+          <div class="arch-flow">
+            <div class="arch-node alt"><i class="fa-solid fa-database" style="margin-right:10px;"></i>Operational OLTP Database</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><small>Batch extraction · Python archival runs</small></div>
+            <div class="arch-node hl"><i class="fa-solid fa-check-double" style="margin-right:10px;"></i>Warehouse Verification</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><small>Verify before any destructive step</small></div>
+            <div class="arch-node"><i class="fa-solid fa-file-csv" style="margin-right:10px;"></i>CSV Export</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><small>Write to cold storage</small></div>
+            <div class="arch-node alt"><i class="fa-brands fa-aws" style="margin-right:10px;"></i>Amazon S3<br><small>Low-cost object storage · Historical archive</small></div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><small>Only after S3 write + verify succeed</small></div>
+            <div class="arch-node hl"><i class="fa-solid fa-trash-can-arrow-up" style="margin-right:10px;"></i>Hot Data Deletion<br><small>Controlled, incremental, post-verify</small></div>
+          </div>
+          <div class="arch-caption">Hot → Warehouse → Cold lifecycle</div>
+        </div>
+        <p style="margin-top:14px;">
+          The archival workflow connected the operational database, analytical warehouse, and S3 cold-storage layer:
+        </p>
+        <ul>
+          <li><strong>Identify &amp; extract:</strong> Python-based archival processes identified records outside the hot-data retention window and extracted them in manageable batches.</li>
+          <li><strong>Warehouse verification:</strong> Each archival batch was checked against the analytical warehouse before any destructive operation was performed.</li>
+          <li><strong>Cold storage:</strong> Verified records were exported as CSV and written to Amazon S3, providing a durable and lower-cost storage layer for historical data.</li>
+          <li><strong>Hot-tier cleanup:</strong> Once the archival and verification steps completed successfully, the corresponding records were removed from the operational database.</li>
+          <li><strong>Controlled execution:</strong> The process was designed to run incrementally, allowing historical data to be archived progressively rather than through a single large migration.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Key Engineering Challenges</h3>
+        <ul>
+          <li><strong>Delete safety.</strong> Nothing was allowed to delete from hot unless verification independently confirmed correctness. The verify pass was written by a separate code path than the extract path, so a bug in extract cannot silently win.</li>
+          <li><strong>Schema evolution &amp; cold retrievability.</strong> Immutable Parquet batches should remain readable years later. Versioned schema snapshots per run plus a forward-compatible Parquet schema contract guarantee this.</li>
+          <li><strong>Retention compliance.</strong> A retention metadata layer captures the legal/compliance retention class for every batch so lifecycle policies and audit queries are both simple and auditable.</li>
+          <li><strong>Restore performance.</strong> Cold data had to be usable without a full re-load into the warehouse. Columnar Parquet + partitioning meant ad-hoc query engines could query S3 directly for most restore/audit use cases with good performance.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Outcome &amp; Impact</h3>
+        <div class="cs-outcomes">
+          <div class="outcome-card">
+            <div class="num">~40%</div>
+            <p>Reduction in operational database footprint by progressively moving aged historical data out of hot storage.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Lower storage overhead</div>
+            <p>Historical data was moved from the operational database to Amazon S3, reducing the volume of data retained in the higher-cost hot tier.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Improved operational efficiency</div>
+            <p>Keeping only relevant, recent data in the transactional database reduced the amount of data that needed to be maintained within the operational environment.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Preserved historical data</div>
+            <p>Archived records remained available through the analytical warehouse and S3, ensuring historical data could continue to support reporting, analytics, and future retrieval without remaining in the hot database.</p>
+          </div>
+        </div>
+        <p style="margin-top:22px;">
+          The result was a more sustainable <strong>hot-to-cold data lifecycle</strong>: recent transactional data remained readily available in the operational database, while older data was progressively archived to lower-cost storage without losing its analytical value.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Technology Stack</h3>
+        <div class="stack-group">
+          <h5>Source &amp; Archive Platforms</h5>
+          <div class="stack-tools">
+            <span class="with-icon">OLTP Database</span>
+            <span>Amazon S3</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Implementation</h5>
+          <div class="stack-tools">
+            <span class="with-icon">Python</span>
+            <span>SQL</span>
+            <span>Data Engineering</span>
+          </div>
+        </div>
+
+        <div class="sanitized-note">
+          <h5><i class="fa-solid fa-shield-halved"></i>Security · Confidentiality note</h5>
+          <p>This case study has been intentionally sanitized. Proprietary data, internal infrastructure details, credentials,
+            customer information, and confidential implementation details have been omitted or described generically where
+            appropriate. All architecture diagrams and examples are conceptual and illustrative.</p>
+        </div>
+
+        <div class="cs-cta-bar">
+          <a class="btn btn-outline" href="/projects/"><i class="fa-solid fa-arrow-left"></i> Back to Projects</a>
+          <!-- <a class="btn btn-dark" href="/#contact">Let's Talk <i class="fa-solid fa-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 AbdulAzeez Adesanya. All rights reserved.</span>
+        <span>Built with data. Delivered with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggleA = document.getElementById('mobile-toggle-a');
+    const navLinksA = document.getElementById('nav-links-a');
+    if (toggleA && navLinksA) {
+      toggleA.addEventListener('click', () => navLinksA.classList.toggle('open'));
+      document.querySelectorAll('#nav-links-a a').forEach(link => {
+        link.addEventListener('click', () => navLinksA.classList.remove('open'));
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,522 +1,564 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <title>Home - AbdulAzeez's Portfolio</title>
-    <meta name="description" content="Data analyst portfolio - static replica" />
-  <!-- Typography: Lexend for headings, Inter for body -->
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <title>AbdulAzeez Adesanya — Data Analytics Engineer</title>
+  <meta name="description" content="Data Analytics Engineer — Building data infrastructures, optimizing warehouses, and delivering actionable insights." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <nav class="nav">
-      <div class="container nav-inner">
-        <a class="brand" style="font-size: 40px;" href="/">&#8962;</a>
-        <button id="mobile-toggle" class="mobile-toggle">☰</button>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
         <ul class="nav-links" id="nav-links">
-          <!-- <li><a href="/">Home</a></li> -->
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
           <li><a href="/projects/">Projects</a></li>
-          <li><a href="#contact">Let's Connect</a></li>
-          <!-- <li><a href="contacts.html">Contact Me</a></li> -->
         </ul>
+        <a href="#contact" class="nav-cta">Let's Talk</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <header class="hero">
-      <div class="hero-overlay"></div>
-      <div class="container hero-content">
-        <span class="badge">Open for Opportunities</span>
-        <h1 class="hero-title">ABDULAZEEZ ADESANYA</h1>
-        <h2 class="badge" style="color: #34374e">DATA ANALYTICS ENGINEER</h2>
-        <br>
-        <!-- <h1 style="color: #0d6efd; font-family: 'Manrope'"> DATA ANALYTICS ENGINEER </h1> -->
-        <!-- <p class="muted"></p> -->
-        <span style="color: #515151">
-          Experienced Data Analyst and Analytics Engineer <br> Building data infrastructures, scaling and optimizing data warehouses for real-time analytics,
-          developing interactive dashboards and implementing analytical solutions that drives business.
-          </span>
+  <header class="hero">
+    <div class="container hero-inner hero-single">
+      <div class="hero-text">
+        <span class="eyebrow">OPEN FOR OPPORTUNITIES</span>
+        <h1 class="hero-title">
+          ABDULAZEEZ ADESANYA
+        </h1>
+        <h2 class="hero-role">DATA ANALYTICS ENGINEER</h2>
+        <p class="hero-desc">
+        I engineer scalable data pipelines, analytical data warehouses, 
+        and high-performance data models that power reliable analytics and business intelligence.       
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-dark" href="/projects/">
+            Projects <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a class="btn btn-outline" href="https://drive.google.com/file/d/1OlX21AsNMhvateDSu1DNhUkpljYFo-KE/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            View CV <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
-    </header>
+      <!--
+      <div class="hero-card">
+        <div class="stats-badge">
+          <div class="stats-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <span class="stats-label">IMPACT DELIVERED</span>
+            <span class="stats-value">3+ Years</span>
+          </div>
+        </div>
 
-    <main>
-      <section class="about container">
-        <h2>About Me</h2>
-        <div class="card">
-          <p class="justify">
-            Hi! I'm AbdulAzeez.<br>
-            A Data Analyst and Analytics Engineer with 3+ years of experience designing scalable data systems and transforming 
-            complex data into actionable insights that drive measurable business impact. I specialize in building efficient data models, 
-            optimizing SQL for performance, and using modern BI tools to uncover patterns that support informed decision-making.
-            <br><br>
-            I develop reliable, scalable datasets and data architectures that enable accurate, real-time analysis while maintaining 
-            strong data integrity. My work includes optimizing data warehouses, defining KPIs aligned with business goals, 
-            and translating them into clear, interactive dashboards that empower stakeholders to make confident decisions.
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-currency">
+              <span class="stat-flag">📊</span> PROJECTS
+            </span>
+            <span class="stat-number">20+</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-currency">
+              <span class="stat-flag blue">🎯</span> DELIVERED
+            </span>
+            <span class="stat-number">100%</span>
+          </div>
+        </div>
+
+        <div class="stat-highlight">
+          <div class="highlight-row">
+            <span>Data Pipelines</span>
+            <span>Robust &amp; Scalable</span>
+          </div>
+          <div class="highlight-row">
+            <span>Dashboards</span>
+            <span>Interactive &amp; Real-Time</span>
+          </div>
+          <div class="highlight-row highlight-accent">
+            <span>Settlements</span>
+            <span><i class="fa-solid fa-bolt"></i> Actionable Insights</span>
+          </div>
+        </div>
+
+        <a href="#services" class="btn btn-orange btn-block">
+          Explore My Work
+        </a>
+
+        <div class="trust-row">
+          <span>POSTGRESQL</span>
+          <span>•</span>
+          <span>CLICKHOUSE</span>
+          <span>•</span>
+          <span>PYTHON</span>
+          <span>•</span>
+          <span>POWER BI</span>
+        </div>
+      </div>
+      -->
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="about section">
+      <div class="container about-inner">
+        <div class="about-image">
+          <div class="image-frame">
+            <i class="fa-solid fa-user fa-5x" style="color:#0B60EA;"></i>
+          </div>
+        </div>
+        <div class="about-content">
+          <span class="eyebrow">ABOUT ME</span>
+          <h2>Turning raw data into business value, one insight at a time.</h2>
+          <p class="about-text">
+            Hi, I’m <strong>AbdulAzeez Adesanya</strong>, an <strong>Analytics Engineer</strong> with 4+ years of experience building reliable, scalable data systems that turn raw operational data into structured, analytics-ready datasets.
           </p>
 
-          <p class="justify">
-            I thrive in cross-functional environments, bridging technical and business teams to communicate insights clearly and effectively. 
-            By promoting data literacy and transparent reporting, I help organizations identify opportunities and make smarter, data-driven decisions.
-            <br><br>
-            Currently, I’m expanding into analytics engineering—building robust data pipelines, implementing ETL processes, 
-            and working with modern data warehousing solutions. I focus on creating efficient data flows, scalable architectures, 
-            and automated reporting systems that support advanced analytics and predictive use cases.
+          <p class="about-text">
+            My work sits at the intersection of <strong>data engineering, analytics engineering, and business intelligence</strong>. I design data pipelines, analytical data models, and reporting layers that make complex, multi-source data reliable, performant, and easy to consume. 
+            I work across the data lifecycle — from <strong>ingestion and transformation to warehousing, modelling, optimisation, and BI</strong>.
           </p>
 
-          <p class="justify">
-            Beyond my professional work, I mentor aspiring data professionals and take on freelance projects, helping individuals 
-            and organizations unlock the full value of their data.
-            <br><br>
-            To me, data is more than numbers - it’s a powerful tool for solving problems and driving innovation. 
-            If you're looking to build scalable data solutions and turn your data into actionable insights, Let’s connect!
+          <p class="about-text">
+            I have hands-on experience working with <strong>ClickHouse, MySQL, PostgreSQL, Python, Airbyte, and modern BI platforms</strong>. My focus is not simply moving data from one system to another, but designing data architectures that are <strong>efficient, maintainable, and fit for analytical workloads</strong>. 
+            This includes developing reusable data models, optimising complex SQL queries, designing incremental data pipelines, and improving the performance and reliability of analytical workloads.
           </p>
 
-          <div class="actions center">
-            <a class="btn primary" href="https://drive.google.com/file/d/1evxgHmsRvR6zfIBGcYHxbFdNWlRi7j-n/view?usp=sharing" download target="_blank" rel="noopener noreferrer">VIEW CV</a>
-            <a class="btn primary" href="/projects/">PROJECTS</a>
+          <p class="about-text">
+            Performance and data quality are central to how I approach engineering. I work with large datasets and production workloads where <strong>query performance, data consistency, schema management, and operational reliability</strong> matter. I also design validation and reconciliation processes to ensure that the data powering reports, dashboards, and business decisions remains accurate and trustworthy.
+          </p>
+
+          <p class="about-text">
+            Coming from a strong data analysis background, I also understand the <strong>business context behind the data</strong>. I build analytical solutions with the end user in mind — ensuring that datasets are not only technically sound, but structured around the questions the business actually needs to answer.
+          </p>
+
+          <p class="about-text">
+            I enjoy solving problems where <strong>data architecture, performance, and business requirements intersect</strong> — whether that means designing an analytical warehouse, engineering an ingestion pipeline, optimising a complex query, modelling a reporting layer, or turning fragmented operational data into a reliable source of truth.
+          </p>
+
+          <!-- <p class="about-text">
+            Hi! I'm <strong>AbdulAzeez Adesanya</strong> — a Data Analyst and Analytics Engineer with 3+ years of experience designing scalable data systems and transforming complex data into actionable insights that drive measurable business impact.
+          </p>
+          <p class="about-text">
+            I specialize in building efficient data models, optimizing SQL for performance, and using modern BI tools to uncover patterns that support informed decision-making. I develop reliable, scalable datasets and data architectures that enable accurate, real-time analysis while maintaining strong data integrity.
+          </p>
+          <p class="about-text">
+            I thrive in cross-functional environments, bridging technical and business teams to communicate insights clearly and effectively. Currently, I'm expanding into analytics engineering — building robust data pipelines, implementing ETL processes, and working with modern data warehousing solutions.
+          </p> -->
+          <div class="about-tags">
+            <span class="tag">Data Modeling</span>
+            <span class="tag">ETL / ELT</span>
+            <span class="tag">Data Warehousing</span>
+            <span class="tag">Business Intelligence</span>
           </div>
         </div>
-      </section>
-
-     <section class="skills container">
-      <h2>Skills & Tools</h2>
-      <p class="muted">Technologies and capabilities across data analysis, analytics engineering, and visualization</p>
-
-      <!-- <div class="skills-grid"> -->
-
-      <div class="skills-grid">
-        <!-- Data Engineering / Warehousing -->
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/clickhouse-logo.png" alt="ClickHouse">
-          </div>
-          <h3>ClickHouse</h3>
-          <p class="skill-meta">Data Warehouse</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/Airbyte.png" alt="Airbyte">
-          </div>
-          <h3>Airbyte</h3>
-          <p class="skill-meta">ETL/ELT</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/mysql logo.png" alt="MySQL">
-          </div>
-          <h3>MySQL</h3>
-          <p class="skill-meta">Database</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/postgresql-logo.svg" alt="PostgreSQL">
-          </div>
-          <h3>PostgreSQL</h3>
-          <p class="skill-meta">Database</p>
-        </div>
-
-        <!-- Programming -->
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/python-logo.svg" alt="Python">
-          </div>
-          <h3>Python</h3>
-          <!-- <p class="skill-meta">Data Analysis & Automation</p> -->
-          <p class="skill-meta">Analysis</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/pandas-logo.svg" alt="Pandas">
-          </div>
-          <h3>Pandas</h3>
-          <p class="skill-meta">Analysis</p>
-        </div>
-      </div> 
-      <!-- end grid 1 -->
-
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/dax-logo.svg" alt="DAX">
-          </div>
-          <h3>DAX</h3>
-          <p class="skill-meta">Data Modeling</p>
-        </div>
-
-        <!-- Visualization -->
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/powerbi-logo.svg" alt="Power BI">
-          </div>
-          <h3>Power BI</h3>
-          <p class="skill-meta">BI & Reporting</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/metabase-logo.svg" alt="Metabase">
-          </div>
-          <h3>Metabase</h3>
-          <p class="skill-meta">BI & Reporting</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/Looker.png" alt="Looker Studio">
-          </div>
-          <h3>Looker Studio</h3>
-          <p class="skill-meta">BI & Reporting</p>
-        </div>
-
-        <!-- Analysis Tools -->
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/excel-logo.svg" alt="Excel">
-          </div>
-          <h3>Excel</h3>
-          <p class="skill-meta">Analysis</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/google-sheets.png" alt="Google Sheets">
-          </div>
-          <h3>Google Sheets</h3>
-          <p class="skill-meta">Analysis</p>
-        </div>
-        </div>
-        <!-- end grid 2 -->
-
-      <div class="skills-grid">
-        <!-- Visualization Libraries -->
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/matplotlib-logo.svg" alt="Matplotlib">
-          </div>
-          <h3>Matplotlib</h3>
-          <p class="skill-meta">Visualization</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/seaborn-logo.svg" alt="Seaborn">
-          </div>
-          <h3>Seaborn</h3>
-          <p class="skill-meta">Visualization</p>
-        </div>
-
-        <!-- Core Skills -->
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/pretraining-models.png" alt="Data Modeling">
-          </div>
-          <h3>Data Modeling</h3>
-          <p class="skill-meta">Analytics Engineering</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/data-warehouse.png" alt="Data Warehousing">
-          </div>
-          <h3>Data Warehousing</h3>
-          <p class="skill-meta">Analytics Engineering</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/vscode-logo.svg" alt="VS Code">
-          </div>
-          <h3>VS Code</h3>
-          <p class="skill-meta">Development Tool</p>
-        </div>
-
-        <div class="skill-card">
-          <!-- <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/technology.png" alt="Data Ingestion">
-          </div>
-          <h3>Data Ingestion</h3>
-          <p class="skill-meta">Analytics Engineering</p> -->
-        </div>
-
       </div>
-      <!-- end grid 3 -->
-      <!-- </div> -->
     </section>
 
-
-<!--
-    another version of skills section with groupings by category - data engineering, analytics/BI, programming, core skills.
-    <section class="skills container">
-      <h2>Skills & Tools</h2>
-      <p class="muted">Technologies and capabilities across analytics, data engineering, and visualization</p>
-
-      <h3 class="skills-group-title">Data Engineering</h3>
-      <div class="skills-grid">
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/clickhouse-logo.png" alt="ClickHouse">
-          </div>
-          <h3>ClickHouse</h3>
-          <p class="skill-meta">Data Warehouse</p>
+    <section id="services" class="services section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">WHAT I DO</span>
+          <h2>One engineer. Every data flow.</h2>
+          <p class="section-sub">
+            <!-- End-to-end data solutions — from ingestion to insight — built for scale, reliability, and business impact. -->
+          I build end-to-end data solutions; from ingestion and transformation to 
+          warehousing, modelling, optimisation, and insight - with a focus on scale, reliability, performance, and business impact.
+          </p>
         </div>
 
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/Airbyte.png" alt="Airbyte">
-          </div>
-          <h3>Airbyte</h3>
-          <p class="skill-meta">ETL / ELT</p>
+        <div class="services-tabs">
+          <button class="tab-btn active" data-tab="engineering">Analytics Engineering</button>
+          <button class="tab-btn" data-tab="analysis">Data Analysis</button>
+          <button class="tab-btn" data-tab="bi">BI &amp; Visualization</button>
+          <!-- <button class="tab-btn" data-tab="consulting">Consulting</button> -->
         </div>
 
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/postgresql-logo.svg" alt="PostgreSQL">
-          </div>
-          <h3>PostgreSQL</h3>
-          <p class="skill-meta">Database</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/mysql logo.png" alt="MySQL">
-          </div>
-          <h3>MySQL</h3>
-          <p class="skill-meta">Database</p>
-        </div>
-
-      </div>
-
-      <h3 class="skills-group-title">Analytics & BI</h3>
-      <div class="skills-grid">
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/powerbi-logo.svg" alt="Power BI">
-          </div>
-          <h3>Power BI</h3>
-          <p class="skill-meta">Dashboarding</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/metabase-logo.svg" alt="Metabase">
-          </div>
-          <h3>Metabase</h3>
-          <p class="skill-meta">BI & Reporting</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/Looker.png" alt="Looker Studio">
-          </div>
-          <h3>Looker Studio</h3>
-          <p class="skill-meta">Dashboarding</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/excel-logo.svg" alt="Excel">
-          </div>
-          <h3>Excel</h3>
-          <p class="skill-meta">Analysis</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/google-sheets.png" alt="Google Sheets">
-          </div>
-          <h3>Google Sheets</h3>
-          <p class="skill-meta">Analysis</p>
-        </div>
-
-      </div>
-
-      <h3 class="skills-group-title">Programming</h3>
-      <div class="skills-grid">
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/python-logo.svg" alt="Python">
-          </div>
-          <h3>Python</h3>
-          <p class="skill-meta">Data Analysis</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/pandas-logo.svg" alt="Pandas">
-          </div>
-          <h3>Pandas</h3>
-          <p class="skill-meta">Data Manipulation</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/dax-logo.svg" alt="DAX">
-          </div>
-          <h3>DAX</h3>
-          <p class="skill-meta">Data Modeling</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/matplotlib-logo.svg" alt="Matplotlib">
-          </div>
-          <h3>Matplotlib</h3>
-          <p class="skill-meta">Visualization</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/seaborn-logo.svg" alt="Seaborn">
-          </div>
-          <h3>Seaborn</h3>
-          <p class="skill-meta">Visualization</p>
-        </div>
-
-      </div>
-
-      <h3 class="skills-group-title">Core Skills</h3>
-      <div class="skills-grid">
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/pretraining-models.png" alt="Data Modeling">
-          </div>
-          <h3>Data Modeling</h3>
-          <p class="skill-meta">Analytics Engineering</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/data-warehouse.png" alt="Data Warehousing">
-          </div>
-          <h3>Data Warehousing</h3>
-          <p class="skill-meta">Architecture</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/technology.png" alt="Data Ingestion">
-          </div>
-          <h3>Data Ingestion</h3>
-          <p class="skill-meta">Pipelines</p>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <img style="width:100%; height:100%; object-fit:contain;" src="icons/vscode-logo.svg" alt="VS Code">
-          </div>
-          <h3>VS Code</h3>
-          <p class="skill-meta">Development Tool</p>
-        </div>
-
-      </div>
-    </section>
-  -->
-
-      <section class="skills container">
-        <h2>Certifications & Learning</h2>
-        <p class="muted">Continuous learning and professional development in Data Analytics and Analytics Engineering</p>
-        <div class="certs-grid">
-          <div class="cert">
-            <div class="cert-inner">
-              <strong>Google Data Analytics Professional Certificate</strong>
-              <div class="cert-meta">
-                 <a href="https://www.credly.com/badges/8efb0597-db37-46f9-81bd-8e9546b509a9/public_url" target="_blank" rel="noopener noreferrer">Google</a> • 2023
-              </div>
+        <div class="services-grid">
+          <div class="service-card active" data-card="engineering">
+            <div class="service-visual alt">
+              <i class="fa-solid fa-warehouse"></i>
+            </div>
+            <div class="service-body">
+              <h3>Scalable data infrastructures your business can grow with.</h3>
+              <p>Data warehouses. ETL pipelines. Data modeling. I build the foundational architecture that keeps your data reliable, accessible, and ready for analytics.</p>
+              <ul class="service-list">
+                <li><i class="fa-solid fa-check"></i> Analytical Data Warehousing</li>
+                <li><i class="fa-solid fa-check"></i> Data Ingestion &amp; Pipelines</li>
+                <li><i class="fa-solid fa-check"></i> Data Modelling: Medallion, Kimball, Star &amp; Snowflake schema design</li>
+                <li><i class="fa-solid fa-check"></i> AI Integration</li>
+              </ul>
+              <!-- <a href="#contact" class="service-link">Talk to Me <i class="fa-solid fa-arrow-right"></i></a> -->
             </div>
           </div>
-          <div class="cert">
-            <div class="cert-inner">
-              <strong>Microsoft Power BI Data Analyst</strong>
-              <div class="cert-meta">
-                 <a href="https://learn.microsoft.com/en-us/users/abdulazeezadesanya-7271/transcript/dw8rpc1yrx0ll4m" target="_blank" rel="noopener noreferrer">Microsoft</a> • 2024
-              </div>
+
+          <div class="service-card" data-card="analysis">
+            <div class="service-visual alt">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+            </div>
+            <div class="service-body">
+              <h3>Analysis that turns complex data into clear answers.</h3>
+              <p>
+                I use SQL and Python to investigate complex datasets, identify patterns, define meaningful metrics, and translate analytical findings into insights that support product, operational, and strategic decisions.
+                <!-- Exploratory analysis. Product & Cohort Analysis. KPI design. I go beyond the numbers to tell the story behind them — with clarity, rigor, and context stakeholders can act on. -->
+              </p>
+              <ul class="service-list">
+                <li><i class="fa-solid fa-check"></i> Exploratory Analysis</li>
+                <li><i class="fa-solid fa-check"></i> Product & Cohort Analysis</li>
+                <li><i class="fa-solid fa-check"></i> KPI &amp; Metric Development</li>
+                <li><i class="fa-solid fa-check"></i> SQL Performance Tuning</li>
+              </ul>
+              <!-- <a href="#contact" class="service-link">Talk to Me <i class="fa-solid fa-arrow-right"></i></a> -->
             </div>
           </div>
-          <div class="cert">
-            <div class="cert-inner">
-              <strong>Data Manipulation with Pandas</strong>
-              <div class="cert-meta">
-                 <a href="https://www.datacamp.com/completed/statement-of-accomplishment/course/8d70ae6723d592747f994f39c7e8c4e9f3f71da8" target="_blank" rel="noopener noreferrer">Data Camp</a> • 2025
-              </div>
+
+          <div class="service-card" data-card="bi">
+            <div class="service-visual alt2">
+              <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <div class="service-body">
+              <h3>Dashboards that your team actually uses.</h3>
+              <p>
+                I build governed reporting layers and interactive BI solutions that give teams a clear view of their most important metrics — with reliable data, intuitive exploration, and the context needed to act.
+                <!-- No more stale reports and forgotten PDFs. I design and build interactive dashboards in Power BI, Metabase, and Looker Studio — with real-time data, clear KPIs, and drill-down capability. -->
+              </p>
+              <ul class="service-list">
+                <li><i class="fa-solid fa-check"></i> Metabase: Models, Embedding, Self Service Analytics</li>
+                <li><i class="fa-solid fa-check"></i> Looker Studio</li>
+                <li><i class="fa-solid fa-check"></i> Power BI &amp; DAX modeling</li>
+                <li><i class="fa-solid fa-check"></i> Excel &amp; Google Sheets</li>
+              </ul>
+              <!-- <a href="#contact" class="service-link">Talk to Me <i class="fa-solid fa-arrow-right"></i></a> -->
             </div>
           </div>
-          <div class="cert">
-            <div class="cert-inner">
-              <strong>Data Analytics Essentials with Power BI</strong>
-              <div class="cert-meta">
-                 <a href="https://www.udemy.com/certificate/UC-32157610-f3fc-4d1d-8c8f-f819aa294067/" target="_blank" rel="noopener noreferrer">Udemy</a> • 2022
-              </div>
+
+          <!-- <div class="service-card" data-card="consulting">
+            <div class="service-visual alt3">
+              <i class="fa-solid fa-lightbulb"></i>
             </div>
-          </div>
-          <!-- <div class="cert">
-            <div class="cert-inner">
-              <strong>Manage GA4 Data & Learn to Read Reports</strong>
-              <div class="cert-meta">
-                 <a href="https://skillshop.credential.net/7effab43-2001-4754-8020-13d52f8cdead#acc.8gPYRaDL" target="_blank" rel="noopener noreferrer">Google SkillShop</a> • 2025
-              </div>
+            <div class="service-body">
+              <h3>Guidance on your data journey — from strategy to execution.</h3>
+              <p>Need help mapping your data roadmap? Or mentoring your team? I bring hands-on experience across industries — retail, healthcare, hospitality, e-commerce — and deliver practical, actionable advice.</p>
+              <ul class="service-list">
+                <li><i class="fa-solid fa-check"></i> Data strategy &amp; roadmap design</li>
+                <li><i class="fa-solid fa-check"></i> Team training &amp; mentoring</li>
+                <li><i class="fa-solid fa-check"></i> Architecture audits &amp; reviews</li>
+              </ul>
+              <a href="#contact" class="service-link">Talk to Me <i class="fa-solid fa-arrow-right"></i></a>
             </div>
           </div> -->
-        </div>
-      </section>
 
-    </main>
-
-    <footer id="contact" class="site-footer">
-      <div class="container footer-inner">
-        <div class="connect">
-          <h3>Let's Connect</h3>
-          <p class="muted">I’m always open to new opportunities, contracts, and collaborations. Feel free to reach out through any of the channels below. 
-            <br>Let’s connect to discuss data, projects, or ways we can work together. I’d love to hear from you!
-          </p>
-          <div class="socials">
-            <a class="icon" href="mailto:adesanya240@gmail.com" aria-label="Email">
-              <i class="fa-regular fa-envelope"></i>
-            </a>
-            <a class="icon" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <i class="fa-brands fa-linkedin"></i>
-            </a>
-            <a class="icon" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <i class="fa-brands fa-github"></i>
-            </a>
-            <a class="icon" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X">
-              <i class="fa-brands fa-x-twitter"></i>
-            </a>
-            <a class="icon" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium">
-              <i class="fa-brands fa-medium"></i>
-            </a>
-          </div>
-          <div class="copyright-footer">© 2026 AbdulAzeez Adesanya</div>
         </div>
       </div>
-    </footer>
+    </section>
 
-    <script>
-      // Mobile toggle
-      const toggle = document.getElementById('mobile-toggle');
-      const nav = document.getElementById('nav-links');
-      toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    <section id="skills" class="skills section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">TOOLS &amp; TECHNOLOGIES</span>
+          <h2>The stack I use to ship reliable data.</h2>
+          <p class="section-sub">The tools I use to build reliable data systems, high-performance analytical models, and decision-ready BI solutions.</p>
+        </div>
 
-      // Certificates scroll
-      document.querySelectorAll('.scroll-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const dir = btn.getAttribute('data-dir');
-          const container = document.getElementById('certs-scroll');
-          const amount = 350;
-          container.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
-        });
+        <div class="skills-grid skills-grid-flat">
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/clickhouse-logo.png" alt="ClickHouse"></div>
+            <h4>ClickHouse</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/Airbyte.png" alt="Airbyte"></div>
+            <h4>Airbyte</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/python-logo.svg" alt="Python"></div>
+            <h4>Python</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/postgresql-logo.svg" alt="PostgreSQL"></div>
+            <h4>PostgreSQL</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/mysql logo.png" alt="MySQL"></div>
+            <h4>MySQL</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/data-warehouse.png" alt="Data Warehousing"></div>
+            <h4>Data Warehousing</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact">
+              <i class="fa-solid fa-filter-circle-dollar" style="font-size:22px;color:var(--primary);"></i>
+            </div>
+            <h4>Data Ingestion</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/pretraining-models.png" alt="Data Modelling"></div>
+            <h4>Data Modelling</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/metabase-logo.svg" alt="Metabase"></div>
+            <h4>Metabase</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/powerbi-logo.svg" alt="Power BI"></div>
+            <h4>Power BI</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/Looker.png" alt="Looker Studio"></div>
+            <h4>Looker Studio</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/excel-logo.svg" alt="Excel"></div>
+            <h4>Excel</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/google-sheets.png" alt="Google Sheets"></div>
+            <h4>Google Sheets</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact">
+              <i class="fa-solid fa-table-list" style="font-size:22px;color:var(--primary);"></i>
+            </div>
+            <h4>Power Query</h4>
+          </div>
+          <div class="skill-card skill-card-compact">
+            <div class="skill-icon skill-icon-compact"><img src="icons/dax-logo.svg" alt="DAX"></div>
+            <h4>DAX</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">FEATURED PROJECTS</span>
+          <h2>Real work. Real impact.</h2>
+          <p class="section-sub">
+            A glimpse into selected real-world and personal projects — from data platforms and analytical warehouses to models, dashboards, and intelligent data solutions.
+            <!-- A selection of dashboards and data solutions I've designed and delivered for clients across industries. -->
+          </p>
+        </div>
+
+        <div class="projects-carousel">
+          <a class="project-card" href="/projects/multi-agent-data-operations-platform/">
+            <div class="project-media" style="background:#E7EEFF; display:flex; align-items:center; justify-content:center; padding:34px;">
+              <i class="fa-solid fa-robot" style="font-size:164px; color:#2F6DD9; opacity:.82;"></i>
+            </div>
+            <div class="project-body">
+              <h3>AI Agent Data Operations Platform</h3>
+              <p>Multi-agent orchestration layer with MCP integrations, ClickHouse analytics, governed operations workflows across production systems.</p>
+            </div>
+          </a>
+
+          <a class="project-card" href="/projects/data-archival-pipeline/">
+            <div class="project-media" style="background:#E4ECFF; display:flex; align-items:center; justify-content:center; padding:34px;">
+              <i class="fa-solid fa-box-archive" style="font-size:164px; color:#2E6CD8; opacity:.82;"></i>
+            </div>
+            <div class="project-body">
+              <h3>Data Archival Pipeline</h3>
+              <p>Structured historical archival from operational MySQL into columnar S3 lake storage with Parquet, retained retention windows and auditable restoration paths.</p>
+            </div>
+          </a>
+
+          <a class="project-card" href="/projects/superstore-dashboard/">
+            <div class="project-media" style="background:#E8F0FF; display:flex; align-items:center; justify-content:center; padding:34px;">
+              <i class="fa-solid fa-chart-column" style="font-size:164px; color:#2E6CD8; opacity:.82;"></i>
+            </div>
+            <div class="project-body">
+              <h3>Superstore Sales Dashboard</h3>
+              <p>Retail sales performance dashboard with executive KPIs, regional drill-downs, category trends, and profit analytics across the full product catalog.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="section-cta">
+          <a href="/projects/" class="btn btn-dark">
+            See All Projects <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="certs section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">CERTIFICATIONS</span>
+          <h2>Licensed. Certified. Accountable.</h2>
+          <p class="section-sub">Continuous learning and professional credentials — from Google, Microsoft, and DataCamp — that back up every deliverable.</p>
+        </div>
+
+        <div class="certs-grid">
+          <a href="https://www.credly.com/badges/8efb0597-db37-46f9-81bd-8e9546b509a9/public_url" target="_blank" rel="noopener noreferrer" class="cert-card">
+            <div class="cert-icon"><i class="fa-brands fa-google"></i></div>
+            <div class="cert-body">
+              <h3>Google Data Analytics Professional Certificate</h3>
+              <div class="cert-meta">Google • 2023</div>
+            </div>
+            <i class="fa-solid fa-arrow-right cert-arrow"></i>
+          </a>
+
+          <a href="https://learn.microsoft.com/en-us/users/abdulazeezadesanya-7271/transcript/dw8rpc1yrx0ll4m" target="_blank" rel="noopener noreferrer" class="cert-card">
+            <div class="cert-icon blue"><i class="fa-brands fa-microsoft"></i></div>
+            <div class="cert-body">
+              <h3>Microsoft Power BI Data Analyst</h3>
+              <div class="cert-meta">Microsoft • 2024</div>
+            </div>
+            <i class="fa-solid fa-arrow-right cert-arrow"></i>
+          </a>
+
+          <a href="https://www.datacamp.com/completed/statement-of-accomplishment/course/8d70ae6723d592747f994f39c7e8c4e9f3f71da8" target="_blank" rel="noopener noreferrer" class="cert-card">
+            <div class="cert-icon green"><i class="fa-solid fa-code"></i></div>
+            <div class="cert-body">
+              <h3>Data Manipulation with Pandas</h3>
+              <div class="cert-meta">DataCamp • 2025</div>
+            </div>
+            <i class="fa-solid fa-arrow-right cert-arrow"></i>
+          </a>
+
+          <a href="https://www.udemy.com/certificate/UC-32157610-f3fc-4d1d-8c8f-f819aa294067/" target="_blank" rel="noopener noreferrer" class="cert-card">
+            <div class="cert-icon navy"><i class="fa-solid fa-chart-simple"></i></div>
+            <div class="cert-body">
+              <h3>Data Analytics Essentials with Power BI</h3>
+              <div class="cert-meta">Udemy • 2022</div>
+            </div>
+            <i class="fa-solid fa-arrow-right cert-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact section section-alt">
+      <div class="container contact-inner">
+        <div class="contact-text">
+          <span class="eyebrow">LET'S CONNECT</span>
+          <h2>Ready to turn your data into decisions that actually work?</h2>
+          <p>
+            Whether you're a growing business, an enterprise, or a team building out your data capability — I have the tools, the experience, and the track record to make it happen. Let's talk through your goals.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-dark" href="mailto:adesanya240@gmail.com">
+              Email Me <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a class="btn btn-outline" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">
+              LinkedIn <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="comm-ring">
+          <div class="comm-wrap">
+            <div class="ring-orbit"></div>
+            <div class="ring-node n-top" aria-hidden="true">
+              <i class="fa-brands fa-linkedin"></i>
+            </div>
+            <div class="ring-node n-right" aria-hidden="true">
+              <i class="fa-brands fa-x-twitter"></i>
+            </div>
+            <div class="ring-node n-bottom" aria-hidden="true">
+              <i class="fa-brands fa-github"></i>
+            </div>
+            <div class="ring-node n-left" aria-hidden="true">
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+            <div class="ring-center">
+              <div class="ring-cluster">
+                <div class="ring-avatar c1"><i class="fa-solid fa-user-tie"></i></div>
+                <div class="ring-avatar c2"><i class="fa-solid fa-user"></i></div>
+                <div class="ring-avatar c3"><i class="fa-solid fa-user-graduate"></i></div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="ring-caption">Let's Connect · Pick any channel</div> -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email">
+            <i class="fa-regular fa-envelope"></i>
+          </a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+            <i class="fa-brands fa-medium"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 AbdulAzeez Adesanya. All rights reserved.</span>
+        <span>Built with data. Delivered with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('mobile-toggle');
+    const nav = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => nav.classList.remove('open'));
+    });
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const cards = document.querySelectorAll('.service-card');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        cards.forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelector(`.service-card[data-card="${tab}"]`).classList.add('active');
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
-

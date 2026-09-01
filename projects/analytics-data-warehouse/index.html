@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <title>Analytics Data Warehouse — Case Study | AbdulAzeez Adesanya</title>
+  <meta name="description" content="Case study: centralizing multiple operational databases into a shared ClickHouse analytical environment to simplify cross-system analysis while preserving useful source structure." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* ClickHouse cluster container */
+    .arch-cluster {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px 22px 16px;
+      border: 1px solid var(--gray-300);
+      border-radius: 14px;
+      background: var(--gray-50);
+    }
+
+    .arch-cluster-title {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--gray-800);
+      letter-spacing: 0.02em;
+    }
+
+    .arch-cluster-title i {
+      margin-right: 8px;
+    }
+
+    /* Nodes inside cluster */
+    .cluster-node-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .cluster-node {
+      flex: 0 1 150px;
+    }
+
+    .cluster-node-box {
+      min-height: 58px;
+      padding: 12px 16px;
+      box-sizing: border-box;
+      border: 1px solid var(--gray-300);
+      border-radius: 10px;
+      background: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+
+    .cluster-node-box i {
+      font-size: 13px;
+    }
+
+    /* Replication connection */
+    .cluster-replication {
+      flex: 0 0 auto;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+
+      color: var(--gray-500);
+      white-space: nowrap;
+    }
+
+    .cluster-replication span {
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .cluster-replication i {
+      font-size: 14px;
+    }
+
+    /* Cluster caption */
+    .arch-cluster-caption {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--gray-500);
+    }
+
+    /* Bottom consumer */
+    .arch-consumer {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .arch-consumer span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arch-consumer small {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-500);
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .cluster-node-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .cluster-node {
+        width: 100%;
+        max-width: 220px;
+      }
+
+      .cluster-replication {
+        flex-direction: row;
+      }
+
+      .cluster-replication span {
+        order: 1;
+      }
+
+      .cluster-replication i {
+        order: 0;
+      }
+
+      .arch-source-row {
+        flex-direction: column;
+      }
+    }
+
+    .arch-source-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.arch-source-row .arch-node {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 250px;
+  box-sizing: border-box;
+}
+    /* End ClickHouse cluster container */
+
+    .page-hero{padding:90px 0 110px; background:
+        radial-gradient(ellipse 60% 60% at 100% 0%, rgba(11,96,234,.10), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(11,96,234,.06), transparent 60%),
+        linear-gradient(180deg, #FBFDFF 0%, #FFFFFF 100%);}
+    .page-hero-inner{max-width:880px; margin:0 auto;}
+    .breadcrumb{display:flex; align-items:center; gap:8px; color:var(--gray-500); font-size:13px; font-weight:700; margin-bottom:22px; flex-wrap:wrap;}
+    .breadcrumb a{color:var(--primary);}
+    .breadcrumb i{font-size:10px;}
+    .page-hero-title{font-size:60px; line-height:1.02; letter-spacing:-.035em; color:var(--navy); font-weight:900; margin:8px 0 16px;}
+    .page-hero-tagline{font-size:18px; line-height:1.7; color:var(--gray-600); max-width:760px;}
+    .hero-badges{display:flex; flex-wrap:wrap; gap:52px; margin-top:38px;}
+    .hero-badges span{font-weight:700; font-size:17px; letter-spacing:-.01em; color:var(--navy);}
+    .cs-meta-wrap{margin-top:-54px; position:relative; z-index:3;}
+    .case-study-meta{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; background:#fff; padding:26px 28px; border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md);}
+    .cs-meta-item{display:flex; align-items:flex-start; gap:12px;}
+    .cs-meta-item > i{width:40px; height:40px; border-radius:10px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+    .cs-meta-item small{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500); text-transform:uppercase; margin-bottom:4px; display:block;}
+    .cs-meta-item strong{font-size:14px; font-weight:800; color:var(--navy); line-height:1.4;}
+    .case-study{padding:72px 0 20px;}
+    .cs-inner{max-width:880px; margin:0 auto;}
+    .cs-block{margin-bottom:64px;}
+    .cs-block h3{font-size:24px; color:var(--navy); font-weight:800; letter-spacing:-.02em; margin-bottom:20px; display:flex; align-items:center;}
+    .cs-block h3::before{content:""; display:inline-block; width:5px; height:20px; background:var(--primary); border-radius:2px; margin-right:14px;}
+    .cs-block > p{font-size:16px; color:var(--gray-600); line-height:1.78; margin-bottom:14px;}
+    .cs-block ul{margin:8px 0 0; padding-left:22px;}
+    .cs-block li{margin-bottom:12px; color:var(--gray-600); line-height:1.72; font-size:15.5px;}
+    .cs-block li strong{color:var(--navy); font-weight:800;}
+    .summary-arch{border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md); margin:22px 0 8px; background:#fff; padding:28px 30px;}
+    .summary-arch-title{font-size:13px; font-weight:800; color:var(--primary); letter-spacing:.1em; text-transform:uppercase; margin:0 0 20px;}
+    .arch-flow{display:flex; flex-direction:column; gap:0;}
+    .arch-source-row{display:grid; grid-template-columns:1fr; gap:10px;}
+    .arch-node{background:#fff; border:1.5px solid var(--primary-600); color:var(--navy); border-radius:14px; padding:14px 18px; text-align:center; font-weight:800; font-size:15px; letter-spacing:-.01em; box-shadow:0 4px 14px rgba(11,96,234,.08);}
+    .arch-node.alt{background:var(--primary-soft); border-color:rgba(11,96,234,.35);}
+    .arch-node.hl{background:var(--primary); color:#fff; border-color:var(--primary);}
+    .arch-arrow{text-align:center; color:var(--primary); font-size:14px; line-height:1; padding:6px 0; font-weight:700;}
+    .arch-arrow span{display:block; color:var(--gray-500); font-size:12px; margin-top:3px; letter-spacing:.02em; font-weight:700;}
+    .arch-caption{font-size:12px; color:var(--gray-500); text-align:center; margin-top:14px; letter-spacing:.05em; font-weight:700; text-transform:uppercase;}
+    .cs-outcomes{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:8px;}
+    .outcome-card{background:var(--primary-soft); border-radius:16px; padding:22px 22px 20px; border:1px solid rgba(11,96,234,.12);}
+    .outcome-card .num{font-size:26px; line-height:1.2; color:var(--primary); font-weight:900; letter-spacing:-.02em; margin-bottom:10px;}
+    .outcome-card p{font-size:14px; color:var(--navy); font-weight:700; line-height:1.55; margin:0;}
+    .stack-group{margin-bottom:16px; background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:22px 26px; box-shadow:var(--shadow-sm);}
+    .stack-group h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px;}
+    .stack-tools{display:flex; flex-wrap:wrap; gap:24px; font-size:16px; font-weight:700; color:var(--navy); letter-spacing:-.01em;}
+    .stack-tools .with-icon{display:inline-flex; align-items:center;}
+    .stack-tools img{margin-right:8px;}
+    .sanitized-note{margin-top:16px; background:#fff; border:1px dashed var(--primary); border-radius:14px; padding:20px 24px;}
+    .sanitized-note h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px; display:flex; align-items:center; gap:8px;}
+    .sanitized-note p{margin:0; font-size:15px; color:var(--gray-600); line-height:1.7;}
+    .cs-cta-bar{display:flex; gap:12px; margin:40px 0 60px; flex-wrap:wrap;}
+
+
+    @media (max-width:1100px){
+      .case-study-meta{grid-template-columns:1fr 1fr;}
+      .cs-outcomes{grid-template-columns:1fr;}
+      .page-hero-title{font-size:48px;}
+      .hero-badges{gap:34px;}
+    }
+    @media (max-width:768px){
+      .page-hero{padding:56px 0 80px;}
+      .page-hero-title{font-size:36px;}
+      .case-study-meta{grid-template-columns:1fr;}
+      .cs-block h3{font-size:20px;}
+      .cs-meta-wrap{margin-top:-36px;}
+      .hero-badges{gap:22px; margin-top:28px;}
+      .hero-badges span{font-size:15px;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle-w" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links-w">
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="breadcrumb">
+        <a href="/projects/"><i class="fa-solid fa-arrow-left"></i> Projects</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Case Study</span>
+      </div>
+      <span class="eyebrow">ANALYTICS PLATFORM</span>
+      <h1 class="page-hero-title">Analytics<br>Data Warehouse</h1>
+      <p class="page-hero-tagline">
+        Centralising related data from multiple operational databases into a shared ClickHouse analytical environment,
+        preserving useful source structure while adding derived analytical tables where required — making cross-system
+        analysis simpler and analytical querying faster.
+      </p>
+      <div class="hero-badges">
+        <span>• ClickHouse</span>
+        <span>• SQL</span>
+        <span>• Data Modelling</span>
+        <span>• Airbyte</span>
+        <span>• Python</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container cs-meta-wrap">
+    <div class="case-study-meta">
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-user-tie"></i>
+        <div>
+          <small>Role</small>
+          <strong>Analytics Engineer · Architecture &amp; Build Lead</strong>
+        </div>
+      </div>
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-layer-group"></i>
+        <div>
+          <small>Area</small>
+          <strong>Warehouse design · ELT · Analytical Models · Data Governance</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-study">
+    <div class="container cs-inner">
+      <div class="cs-block">
+        <h3>Context</h3>
+        <p>
+          Data for the business was distributed across multiple operational databases, with related entities and business processes spanning different systems. 
+          Analytical queries often required navigating these separate sources and joining data across database boundaries was difficult, 
+          which made reporting slower and more complex than necessary.
+        </p>
+        <p>
+          The goal was to establish ClickHouse as a central analytical warehouse — bringing relevant data from the operational systems into one analytical environment, 
+          improving query performance, simplifying cross-system analysis, and providing a reliable foundation for BI and downstream data models.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Problem</h3>
+        <p>
+          Analytical workloads were constrained by data being distributed across multiple operational databases:
+        </p>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li><strong>Fragmented data</strong> — related business data was distributed across multiple databases, requiring cross-system lookups and joins to answer broader analytical questions.</li>
+          <li><strong>Slow analytical queries</strong> — operational databases were designed primarily for transactional workloads, making complex analytical queries increasingly expensive as data volumes grew.</li>
+          <li><strong>Repeated cross-database work</strong> — analysts and reporting workflows repeatedly had to retrieve and combine data from separate systems instead of working from a centralized analytical store.</li>
+          <li><strong>Limited analytical structures</strong> — source tables were useful for operational workloads but did not always provide the derived or joined structures needed for efficient reporting and analysis.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Approach</h3>
+        <p>
+          Source tables were already partially clean and structured, so the warehouse did not require a heavy transformation pipeline. Instead, the approach focused on making related data usable together in one analytical environment:
+        </p>
+        <ol style="margin:6px 0 0 22px; color:var(--gray-600); font-size:15.5px; line-height:1.75;">
+          <li style="margin-bottom:12px;"><strong>Centralize source data.</strong> Bring relevant tables from the different operational databases into ClickHouse, maintaining their source relationships and identifiers so cross-system analysis could happen within one analytical environment.</li>
+          <li style="margin-bottom:12px;"><strong>Preserve useful source structures.</strong> Where source tables were already sufficiently structured for analytical use, retain their core structure rather than introducing unnecessary transformation layers.</li>
+          <li style="margin-bottom:12px;"><strong>Build analytical structures where needed.</strong> Create additional derived and analytics-oriented tables for use cases where direct source-table querying was inefficient or where additional joins, calculations, or business logic were required.</li>
+          <li style="margin-bottom:12px;"><strong>Optimize for analytical workloads.</strong> Design ClickHouse tables and query patterns around analytical access rather than operational transaction processing, with appropriate ordering, partitioning, and materialization where applicable.</li>
+          <li style="margin-bottom:12px;"><strong>Provide a central consumption layer.</strong> Make the centralized ClickHouse environment the primary analytical source for BI and reporting, reducing the need for analysts to repeatedly query and combine multiple operational databases.</li>
+        </ol>
+      </div>
+
+      <div class="cs-block">
+        <h3>Architecture &amp; Implementation</h3>
+
+      <div class="summary-arch">
+      <div class="summary-arch-title">Summary of Architecture</div>
+
+      <div class="arch-flow">
+
+        <div class="arch-source-row">
+          <div class="arch-node alt">
+            <i class="fa-solid fa-database"></i>
+            <span>Operational Database 1</span>
+          </div>
+
+          <div class="arch-node alt">
+            <i class="fa-solid fa-database"></i>
+            <span>Operational Database 2</span>
+          </div>
+
+          <div class="arch-node alt">
+            <i class="fa-solid fa-database"></i>
+            <span>Operational Database X</span>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        
+        <div class="arch-source-row">
+          <div class="arch-node alt">
+            <i class="fa-solid fa-plug"></i>
+            <span>Airbyte</span>
+          </div>
+
+          <div class="arch-node alt">
+            <i class="fa-brands fa-python"></i>
+            <span>Python</span>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <span>CDC · XMIN · Incremental Sync. Rest API</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+
+        <div class="arch-cluster">
+
+          <div class="arch-cluster-title">
+            <i class="fa-solid fa-server"></i>
+            ClickHouse Cluster
+          </div>
+
+          <div class="cluster-node-row">
+
+            <div class="cluster-node">
+              <div class="cluster-node-box">
+                <i class="fa-solid fa-server"></i>
+                <strong>Node 1</strong>
+              </div>
+            </div>
+
+            <div class="cluster-replication">
+              <span>Replication sync</span>
+              <i class="fa-solid fa-arrows-left-right"></i>
+            </div>
+
+            <div class="cluster-node">
+              <div class="cluster-node-box">
+                <i class="fa-solid fa-server"></i>
+                <strong>Node 2</strong>
+              </div>
+            </div>
+
+            <div class="cluster-replication">
+              <span>Replication sync</span>
+              <i class="fa-solid fa-arrows-left-right"></i>
+            </div>
+
+            <div class="cluster-node">
+              <div class="cluster-node-box">
+                <i class="fa-solid fa-server"></i>
+                <strong>Node 3</strong>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="arch-cluster-caption">
+            Replicated Analytical Storage
+          </div>
+
+        </div>
+
+        <div class="arch-arrow">
+          <i class="fa-solid fa-chevron-down"></i>
+          <span>Analytical workloads</span>
+        </div>
+
+        <div class="arch-node arch-consumer">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>
+            <strong>BI · Analytics · Platform</strong>
+          </span>
+        </div>
+
+      </div>
+
+      <div class="arch-caption">Sanitized Conceptual Architecture</div>
+    </div>
+
+  
+        <p style="margin-top:14px;">
+          The warehouse centralizes data from multiple operational systems in ClickHouse, preserving useful source structures while introducing derived analytical tables where required. This allows cross-system analysis and reporting to happen within a single analytical environment rather than repeatedly querying and joining separate operational databases.
+        </p>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li>
+            <strong>Ingestion.</strong>
+            Airbyte was used to replicate source tables into ClickHouse using the ingestion strategy best suited to each table's structure: CDC,
+            XMIN, or Incremental sync. The determining factors were primarily the availability of a consistent primary key and a reliable cursor column,
+            allowing each source to be replicated efficiently while maintaining incremental progress.
+          </li>
+          <li><strong>Source-aligned tables.</strong> Many source tables were brought into ClickHouse with their existing useful structure maintained rather than passed through unnecessary transformation layers. This retained enough of the original shape for traceability and made the warehouse understandable to anyone already familiar with the source systems.</li>
+          <li><strong>Analytical tables.</strong> Additional derived and analytics-oriented tables were created for workloads that required more efficient joins, calculations, repeated aggregations, or business logic that would otherwise have to be rebuilt in every consumer query. The split was pragmatic: build a derived table existed only when it measurably improved a repeated analytical workload.</li>
+          <li>
+            <strong>ClickHouse architecture.</strong> I designed the ClickHouse tables for analytical workloads and configured
+            <code>ReplicatedReplacingMergeTree</code> across the cluster to maintain replicated table data across nodes. Sorting keys and table structures were aligned with common analytical access patterns to support efficient filtering, joins, and aggregations.
+          </li>
+          <li><strong>Consumption.</strong> BI tools and analysts query the centralized ClickHouse environment directly, rather than repeatedly pulling and stitching data from separate operational databases.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Key Engineering Challenges</h3>
+        <ul>
+          <li><strong>Cross-database relationships.</strong> Related entities existed across separate operational databases, requiring consistent identifiers and careful mapping when bringing the data together in ClickHouse. I made identifier conventions and explicit mapping tables where needed so cross-system joins behaved predictably.</li>
+          <li><strong>Analytical query performance.</strong> Queries that were manageable in individual operational systems became expensive when analytical workloads required large joins and aggregations. ClickHouse table design and query patterns were therefore optimized around analytical access.</li>
+          <li><strong>Centralizing heterogeneous sources.</strong> Different operational databases had different structures and conventions. The warehouse needed to bring them into a common analytical environment without unnecessarily transforming already-useful source data.</li>
+          <li><strong>Balancing source fidelity with analytical usability.</strong> The design had to preserve enough of the original source structure for traceability while introducing derived analytical structures where they provided better performance or usability.</li>
+          <li><strong>Scaling analytical workloads.</strong> As the volume of data and complexity of queries increased, the warehouse needed to support larger analytical workloads without pushing that load back onto the operational systems.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Outcome &amp; Impact</h3>
+        <div class="cs-outcomes">
+          <div class="outcome-card">
+            <div class="num">Centralized analytical access</div>
+            <p>Data from multiple operational databases became available within a single ClickHouse analytical environment.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Faster analytical workloads</div>
+            <p>Analytical queries ran against a warehouse designed for large-scale reads and aggregations rather than transactional databases.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Simpler cross-system analysis</div>
+            <p>Related data could be joined and analysed within ClickHouse instead of repeatedly retrieving data from separate operational systems.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Reduced operational DB dependency</div>
+            <p>BI and analytical workloads could be moved away from direct querying of the source operational databases.</p>
+          </div>
+        </div>
+        <p style="margin-top:22px;">
+          The combination of source-aligned tables plus targeted derived analytical models also reduced the onboarding cost for new analytical work:
+          analysts and reporting authors no longer needed to know which operational system held which piece of the puzzle, and could instead work
+          start from a single ClickHouse environment with clearly named analytical tables already prepared for the most common reporting access patterns.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Technology Stack</h3>
+        <div class="stack-group">
+          <h5>Database &amp; Modelling</h5>
+          <div class="stack-tools">
+            <span class="with-icon">ClickHouse</span>
+            <span>SQL</span>
+            <span>Data Modelling</span>
+          </div>
+        </div>
+
+        <div class="sanitized-note">
+          <h5><i class="fa-solid fa-shield-halved"></i>Security · Confidentiality note</h5>
+          <p>This case study has been intentionally sanitized. Proprietary data, internal infrastructure details, credentials,
+            customer information, and confidential implementation details have been omitted or described generically where
+            appropriate. All architecture diagrams and examples are conceptual and illustrative.</p>
+        </div>
+
+        <div class="cs-cta-bar">
+          <a class="btn btn-outline" href="/projects/"><i class="fa-solid fa-arrow-left"></i> Back to Projects</a>
+          <!-- <a class="btn btn-dark" href="/#contact">Let's Talk <i class="fa-solid fa-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 AbdulAzeez Adesanya. All rights reserved.</span>
+        <span>Built with data. Delivered with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggleW = document.getElementById('mobile-toggle-w');
+    const navLinksW = document.getElementById('nav-links-w');
+    if (toggleW && navLinksW) {
+      toggleW.addEventListener('click', () => navLinksW.classList.toggle('open'));
+      document.querySelectorAll('#nav-links-w a').forEach(link => {
+        link.addEventListener('click', () => navLinksW.classList.remove('open'));
+      });
+    }
+  </script>
+</body>
+</html>

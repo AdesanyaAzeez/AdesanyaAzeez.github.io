@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <title>CDC Data Pipeline — Case Study | AbdulAzeez Adesanya</title>
+  <meta name="description" content="Case study: incremental CDC data replication pipelines from operational databases into ClickHouse, handling schema changes, cursor state, duplicates, and high-volume consistency." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-hero{padding:90px 0 110px; background:
+        radial-gradient(ellipse 60% 60% at 100% 0%, rgba(11,96,234,.10), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(11,96,234,.06), transparent 60%),
+        linear-gradient(180deg, #FBFDFF 0%, #FFFFFF 100%);}
+    .page-hero-inner{max-width:880px; margin:0 auto;}
+    .breadcrumb{display:flex; align-items:center; gap:8px; color:var(--gray-500); font-size:13px; font-weight:700; margin-bottom:22px; flex-wrap:wrap;}
+    .breadcrumb a{color:var(--primary);}
+    .breadcrumb i{font-size:10px;}
+    .page-hero-title{font-size:60px; line-height:1.02; letter-spacing:-.035em; color:var(--navy); font-weight:900; margin:8px 0 16px;}
+    .page-hero-tagline{font-size:18px; line-height:1.7; color:var(--gray-600); max-width:760px;}
+    .hero-badges{display:flex; flex-wrap:wrap; gap:52px; margin-top:38px;}
+    .hero-badges span{font-weight:700; font-size:17px; letter-spacing:-.01em; color:var(--navy);}
+    .cs-meta-wrap{margin-top:-54px; position:relative; z-index:3;}
+    .case-study-meta{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; background:#fff; padding:26px 28px; border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md);}
+    .cs-meta-item{display:flex; align-items:flex-start; gap:12px;}
+    .cs-meta-item > i{width:40px; height:40px; border-radius:10px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+    .cs-meta-item small{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500); text-transform:uppercase; margin-bottom:4px; display:block;}
+    .cs-meta-item strong{font-size:14px; font-weight:800; color:var(--navy); line-height:1.4;}
+    .case-study{padding:72px 0 20px;}
+    .cs-inner{max-width:880px; margin:0 auto;}
+    .cs-block{margin-bottom:64px;}
+    .cs-block h3{font-size:24px; color:var(--navy); font-weight:800; letter-spacing:-.02em; margin-bottom:20px; display:flex; align-items:center;}
+    .cs-block h3::before{content:""; display:inline-block; width:5px; height:20px; background:var(--primary); border-radius:2px; margin-right:14px;}
+    .cs-block > p{font-size:16px; color:var(--gray-600); line-height:1.78; margin-bottom:14px;}
+    .cs-block ul{margin:8px 0 0; padding-left:22px;}
+    .cs-block li{margin-bottom:12px; color:var(--gray-600); line-height:1.72; font-size:15.5px;}
+    .cs-block li strong{color:var(--navy); font-weight:800;}
+    .cs-visual{border-radius:20px; overflow:hidden; border:1px solid var(--gray-100); box-shadow:var(--shadow-md); margin:22px 0 8px; background:#fff; padding:8px;}
+    .cs-visual img{width:100%; height:auto; border-radius:14px; display:block;}
+    .cs-outcomes{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px;}
+    .outcome-card{background:var(--primary-soft); border-radius:16px; padding:22px 22px 20px; border:1px solid rgba(11,96,234,.12);}
+    .outcome-card .num{font-size:32px; line-height:1; color:var(--primary); font-weight:900; letter-spacing:-.02em; margin-bottom:10px;}
+    .outcome-card p{font-size:14px; color:var(--navy); font-weight:700; line-height:1.55; margin:0;}
+    .stack-group{margin-bottom:16px; background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:22px 26px; box-shadow:var(--shadow-sm);}
+    .stack-group h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px;}
+    .stack-tools{display:flex; flex-wrap:wrap; gap:24px; font-size:16px; font-weight:700; color:var(--navy); letter-spacing:-.01em;}
+    .stack-tools .with-icon{display:inline-flex; align-items:center;}
+    .stack-tools img{margin-right:8px;}
+    .sanitized-note{margin-top:16px; background:#fff; border:1px dashed var(--primary); border-radius:14px; padding:20px 24px;}
+    .sanitized-note h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px; display:flex; align-items:center; gap:8px;}
+    .sanitized-note p{margin:0; font-size:15px; color:var(--gray-600); line-height:1.7;}
+    .cs-cta-bar{display:flex; gap:12px; margin:40px 0 60px; flex-wrap:wrap;}
+
+
+    @media (max-width:1100px){
+      .case-study-meta{grid-template-columns:1fr 1fr;}
+      .cs-outcomes{grid-template-columns:1fr;}
+      .page-hero-title{font-size:48px;}
+      .hero-badges{gap:34px;}
+    }
+    @media (max-width:768px){
+      .page-hero{padding:56px 0 80px;}
+      .page-hero-title{font-size:36px;}
+      .case-study-meta{grid-template-columns:1fr;}
+      .cs-block h3{font-size:20px;}
+      .cs-meta-wrap{margin-top:-36px;}
+      .hero-badges{gap:22px; margin-top:28px;}
+      .hero-badges span{font-size:15px;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle-c" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links-c">
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="breadcrumb">
+        <a href="/projects/"><i class="fa-solid fa-arrow-left"></i> Projects</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Case Study</span>
+      </div>
+      <span class="eyebrow">CASE STUDY · DATA REPLICATION</span>
+      <h1 class="page-hero-title">CDC Data<br>Pipeline</h1>
+      <p class="page-hero-tagline">
+        Incremental, low-impact replication pipelines from operational databases into ClickHouse — designed for schema drift safety,
+        correct cursor state, deduplication, and provable consistency across high-volume datasets.
+      </p>
+      <div class="hero-badges">
+        <span><img src="/icons/Airbyte.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:8px;">Airbyte</span>
+        <span><img src="/icons/mysql logo.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:8px;">MySQL</span>
+        <span><img src="/icons/clickhouse-logo.png" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:8px;">ClickHouse</span>
+        <span>CDC</span>
+        <span><img src="/icons/python-logo.svg" alt="" style="width:16px;height:16px;vertical-align:-3px;margin-right:8px;">Python</span>
+        <span>SQL</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container cs-meta-wrap">
+    <div class="case-study-meta">
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-user-tie"></i>
+        <div>
+          <small>Role</small>
+          <strong>Replication &amp; pipeline engineering owner</strong>
+        </div>
+      </div>
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-layer-group"></i>
+        <div>
+          <small>Area</small>
+          <strong>CDC · ingestion · consistency engineering</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-study">
+    <div class="container cs-inner">
+      <div class="cs-block">
+        <h3>Context</h3>
+        <p>
+          The warehouse was powered by a growing number of upstream operational databases. As table sizes and write volumes grew,
+          the previous batch-driven nightly strategy became unsustainable — reads against source databases were heavy, freshness was
+          measured in hours, and failures required re-running full loads that could take an entire night.
+        </p>
+        <p>
+          The organisation needed a replication strategy that was incremental by default, low-impact on sources, able to survive
+          mid-stream failures without correctness loss, and honest about when a stream was or was not consistent with source.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Problem</h3>
+        <p>
+          The previous strategy combined correctness and performance problems:
+        </p>
+        <ul>
+          <li><strong>Source-impactful batches.</strong> Full nightly table scans on operational OLTP databases during the busy window.</li>
+          <li><strong>Poor freshness.</strong> Intra-day changes were invisible in the warehouse until the next batch completed.</li>
+          <li><strong>Unrecoverable state.</strong> No persisted cursor contract — retries or partial runs silently duplicated rows or skipped them.</li>
+          <li><strong>Untrusted outputs.</strong> No consistency checks between source and target, so silent integrity issues could persist for weeks.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Approach</h3>
+        <p>
+          CDC-first, with an explicit state contract and an equally explicit set of post-sync checks that every stream must satisfy
+          before it is marked green:
+        </p>
+        <ol style="margin:6px 0 0 22px; color:var(--gray-600); font-size:15.5px; line-height:1.75;">
+          <li style="margin-bottom:12px;"><strong>Binlog CDC for high-volume sources.</strong> Row-level changes streamed with minimal source read footprint, instead of scans.</li>
+          <li style="margin-bottom:12px;"><strong>Unified cursor state.</strong> Persisted per-stream watermark with checksums and compare-and-swap semantics so any stream can resume or reset.</li>
+          <li style="margin-bottom:12px;"><strong>Idempotent writes + dedupe keys.</strong> Target writes are re-runnable; composite dedupe keys + insert_id ordering guarantee uniqueness on materialization.</li>
+          <li style="margin-bottom:12px;"><strong>Consistency checks.</strong> Automated row-count diffs for bounded windows plus row-hash sampling across representative ranges.</li>
+          <li style="margin-bottom:12px;"><strong>Schema drift hold.</strong> Column additions / deletions trigger an alert and a configurable stream-hold rather than silently breaking the target mapping.</li>
+        </ol>
+      </div>
+
+      <div class="cs-block">
+        <h3>Architecture &amp; Implementation</h3>
+        <div class="cs-visual">
+          <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=change%20data%20capture%20CDC%20pipeline%20illustration%20operational%20mysql%20databases%20binlog%20airbyte%20connectors%20persistent%20cursor%20state%20store%20idempotent%20writes%20clickhouse%20warehouse%20consistency%20validation%20checks%20row%20counts%20hashes%20clean%20blue%20minimal%20technical&image_size=landscape_16_9" alt="CDC data pipeline architecture: three operational MySQL sources streaming binlog events through CDC connectors, a persistent cursor state store, idempotent dedupe writers into ClickHouse, and post-sync consistency validations comparing row counts and hashed samples.">
+        </div>
+        <p>
+          Each replication stream passes through five explicit stages:
+        </p>
+        <ul>
+          <li><strong>Extract (CDC).</strong> Binlog-based CDC connectors for write-heavy sources; batched incremental cursors for low-volume sources where binlog access was not available.</li>
+          <li><strong>State (Cursor).</strong> A persistent, per-stream watermark with compare-and-swap semantics — two concurrent syncs cannot both advance the cursor.</li>
+          <li><strong>Write (Idempotent).</strong> Target writes use a natural primary key plus an insertion sequence id; a short merge dedup step re-runs post-sync to handle retries cleanly.</li>
+          <li><strong>Materialize.</strong> Final target tables are rebuilt from the idempotent landing layer; downstream consumers never query the raw landing layer directly.</li>
+          <li><strong>Validate.</strong> Consistency checks for every sync: row-count diff for recent bounded windows; row-hash sampling across a configurable set of key-buckets.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Key Engineering Challenges</h3>
+        <ul>
+          <li><strong>Schema drift.</strong> Column additions, removals, or type changes in a source silently broke mappings. Solved by introducing schema contracts: a stream detects drift, raises an alert, and optionally holds ingestion before downstream marts break.</li>
+          <li><strong>Duplicates on resume.</strong> Any pipeline interruption could re-read the same window. The composite dedupe key + ordered insert_id pattern makes re-runs safe and re-playable.</li>
+          <li><strong>Cursor race conditions.</strong> Two concurrent sync attempts could both advance the cursor. State store uses a compare-and-swap transaction plus a singleton lock per stream.</li>
+          <li><strong>Out-of-order events.</strong> Binlog delivery can occasionally arrive out of order. Introduced a small watermark lag-tolerance window and a periodic merge re-org to finalize rows once their event horizon has closed.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Outcome &amp; Impact</h3>
+        <div class="cs-outcomes">
+          <div class="outcome-card">
+            <div class="num">−78%</div>
+            <p>Read impact on source operational databases switching from batch full-table scans to CDC-based incremental streaming.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">24h → 9m</div>
+            <p>High-value streams freshness: warehouse latency reduced from a full day cycle to single-digit minutes for most tables.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">0 silent</div>
+            <p>No undetected integrity issues across six months of audit logs; every drift or failure was surfaced by sync-time checks.</p>
+          </div>
+        </div>
+        <p style="margin-top:22px;">
+          The state contract and runbook also changed new-stream economics: a new source could be on-boarded with the same schema,
+          state, and checks template inside a single working day — versus a multi-week bespoke design per source on the old approach.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Technology Stack</h3>
+        <div class="stack-group">
+          <h5>Databases</h5>
+          <div class="stack-tools">
+            <span class="with-icon"><img src="/icons/mysql logo.png" alt="" style="width:18px; height:18px;">MySQL (operational source)</span>
+            <span class="with-icon"><img src="/icons/clickhouse-logo.png" alt="" style="width:18px; height:18px;">ClickHouse (analytical target)</span>
+            <span>SQL</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Ingestion &amp; Orchestration</h5>
+          <div class="stack-tools">
+            <span class="with-icon"><img src="/icons/Airbyte.png" alt="" style="width:18px; height:18px;">Airbyte</span>
+            <span class="with-icon"><img src="/icons/python-logo.svg" alt="" style="width:18px; height:18px;">Python</span>
+            <span>CDC</span>
+          </div>
+        </div>
+
+        <div class="sanitized-note">
+          <h5><i class="fa-solid fa-shield-halved"></i>Security · Confidentiality note</h5>
+          <p>This case study has been intentionally sanitized. Proprietary data, internal infrastructure details, credentials,
+            customer information, and confidential implementation details have been omitted or described generically where
+            appropriate. All architecture diagrams and examples are conceptual and illustrative.</p>
+        </div>
+
+        <div class="cs-cta-bar">
+          <a class="btn btn-outline" href="/projects/"><i class="fa-solid fa-arrow-left"></i> Back to Projects</a>
+          <!-- <a class="btn btn-dark" href="/#contact">Let's Talk <i class="fa-solid fa-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 AbdulAzeez Adesanya. All rights reserved.</span>
+        <span>Built with data. Delivered with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggleC = document.getElementById('mobile-toggle-c');
+    const navLinksC = document.getElementById('nav-links-c');
+    if (toggleC && navLinksC) {
+      toggleC.addEventListener('click', () => navLinksC.classList.toggle('open'));
+      document.querySelectorAll('#nav-links-c a').forEach(link => {
+        link.addEventListener('click', () => navLinksC.classList.remove('open'));
+      });
+    }
+  </script>
+</body>
+</html>

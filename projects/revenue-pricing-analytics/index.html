@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <title>Revenue &amp; Pricing Analytics — Case Study | AbdulAzeez Adesanya</title>
+  <meta name="description" content="Case study: a grain-preserving transaction-level revenue model combining effective-dated pricing, processor costs, and billing events into auditable, analytics-ready datasets." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/47a36a668f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .page-hero{padding:90px 0 110px; background:
+        radial-gradient(ellipse 60% 60% at 100% 0%, rgba(11,96,234,.10), transparent 70%),
+        radial-gradient(ellipse 50% 50% at 0% 100%, rgba(11,96,234,.06), transparent 60%),
+        linear-gradient(180deg, #FBFDFF 0%, #FFFFFF 100%);}
+    .page-hero-inner{max-width:880px; margin:0 auto;}
+    .breadcrumb{display:flex; align-items:center; gap:8px; color:var(--gray-500); font-size:13px; font-weight:700; margin-bottom:22px; flex-wrap:wrap;}
+    .breadcrumb a{color:var(--primary);}
+    .breadcrumb i{font-size:10px;}
+    .page-hero-title{font-size:60px; line-height:1.02; letter-spacing:-.035em; color:var(--navy); font-weight:900; margin:8px 0 16px;}
+    .page-hero-tagline{font-size:18px; line-height:1.7; color:var(--gray-600); max-width:760px;}
+    .hero-badges{display:flex; flex-wrap:wrap; gap:52px; margin-top:38px;}
+    .hero-badges span{font-weight:700; font-size:17px; letter-spacing:-.01em; color:var(--navy);}
+    .cs-meta-wrap{margin-top:-54px; position:relative; z-index:3;}
+    .case-study-meta{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; background:#fff; padding:26px 28px; border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md);}
+    .cs-meta-item{display:flex; align-items:flex-start; gap:12px;}
+    .cs-meta-item > i{width:40px; height:40px; border-radius:10px; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+    .cs-meta-item small{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--gray-500); text-transform:uppercase; margin-bottom:4px; display:block;}
+    .cs-meta-item strong{font-size:14px; font-weight:800; color:var(--navy); line-height:1.4;}
+    .case-study{padding:72px 0 20px;}
+    .cs-inner{max-width:880px; margin:0 auto;}
+    .cs-block{margin-bottom:64px;}
+    .cs-block h3{font-size:24px; color:var(--navy); font-weight:800; letter-spacing:-.02em; margin-bottom:20px; display:flex; align-items:center;}
+    .cs-block h3::before{content:""; display:inline-block; width:5px; height:20px; background:var(--primary); border-radius:2px; margin-right:14px;}
+    .cs-block > p{font-size:16px; color:var(--gray-600); line-height:1.78; margin-bottom:14px;}
+    .cs-block ul{margin:8px 0 0; padding-left:22px;}
+    .cs-block li{margin-bottom:12px; color:var(--gray-600); line-height:1.72; font-size:15.5px;}
+    .cs-block li strong{color:var(--navy); font-weight:800;}
+    .summary-arch{border-radius:20px; border:1px solid var(--gray-100); box-shadow:var(--shadow-md); margin:22px 0 8px; background:#fff; padding:28px 30px;}
+    .summary-arch-title{font-size:13px; font-weight:800; color:var(--primary); letter-spacing:.1em; text-transform:uppercase; margin:0 0 20px;}
+    .arch-flow{display:flex; flex-direction:column; gap:0;}
+    .arch-node{background:#fff; border:1.5px solid var(--primary-600); color:var(--navy); border-radius:14px; padding:14px 18px; text-align:center; font-weight:800; font-size:16px; letter-spacing:-.01em; box-shadow:0 4px 14px rgba(11,96,234,.08);}
+    .arch-node.alt{background:var(--primary-soft); border-color:rgba(11,96,234,.35);}
+    .arch-node.hl{background:var(--primary); color:#fff; border-color:var(--primary);}
+    .arch-arrow{text-align:center; color:var(--primary); font-size:14px; line-height:1; padding:6px 0; font-weight:700;}
+    .arch-arrow span{display:block; color:var(--gray-500); font-size:12px; margin-top:3px; letter-spacing:.02em; font-weight:700;}
+    .arch-caption{font-size:12px; color:var(--gray-500); text-align:center; margin-top:14px; letter-spacing:.05em; font-weight:700; text-transform:uppercase;}
+    .cs-outcomes{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:8px;}
+    .outcome-card{background:var(--primary-soft); border-radius:16px; padding:22px 22px 20px; border:1px solid rgba(11,96,234,.12);}
+    .outcome-card .num{font-size:26px; line-height:1.2; color:var(--primary); font-weight:900; letter-spacing:-.02em; margin-bottom:10px;}
+    .outcome-card p{font-size:14px; color:var(--navy); font-weight:700; line-height:1.55; margin:0;}
+    .stack-group{margin-bottom:16px; background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:22px 26px; box-shadow:var(--shadow-sm);}
+    .stack-group h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px;}
+    .stack-tools{display:flex; flex-wrap:wrap; gap:24px; font-size:16px; font-weight:700; color:var(--navy); letter-spacing:-.01em;}
+    .stack-tools .with-icon{display:inline-flex; align-items:center;}
+    .stack-tools img{margin-right:8px;}
+    .sanitized-note{margin-top:16px; background:#fff; border:1px dashed var(--primary); border-radius:14px; padding:20px 24px;}
+    .sanitized-note h5{font-size:13px; color:var(--primary); font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin:0 0 10px; display:flex; align-items:center; gap:8px;}
+    .sanitized-note p{margin:0; font-size:15px; color:var(--gray-600); line-height:1.7;}
+    .cs-cta-bar{display:flex; gap:12px; margin:40px 0 60px; flex-wrap:wrap;}
+
+
+    @media (max-width:1100px){
+      .case-study-meta{grid-template-columns:1fr 1fr;}
+      .cs-outcomes{grid-template-columns:1fr;}
+      .page-hero-title{font-size:48px;}
+      .hero-badges{gap:34px;}
+    }
+    @media (max-width:768px){
+      .page-hero{padding:56px 0 80px;}
+      .page-hero-title{font-size:36px;}
+      .case-study-meta{grid-template-columns:1fr;}
+      .cs-block h3{font-size:20px;}
+      .cs-meta-wrap{margin-top:-36px;}
+      .hero-badges{gap:22px; margin-top:28px;}
+      .hero-badges span{font-size:15px;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-icon"><i class="fa-solid fa-house"></i></span>
+      </a>
+      <button id="mobile-toggle-r" class="mobile-toggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="nav-right">
+        <ul class="nav-links" id="nav-links-r">
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="breadcrumb">
+        <a href="/projects/"><i class="fa-solid fa-arrow-left"></i> Projects</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>Case Study</span>
+      </div>
+      <span class="eyebrow">CASE STUDY · PAYMENTS PLATFORM</span>
+      <h1 class="page-hero-title">Revenue &amp;<br>Pricing Analytics</h1>
+      <p class="page-hero-tagline">
+        A grain-preserving, transaction-level revenue model combining effective-dated pricing, processor costs,
+        and billing events into auditable, analytics-ready datasets for finance and operations teams.
+      </p>
+      <div class="hero-badges">
+        <span>• SQL</span>
+        <span>• Data Modelling</span>
+        <span>• Airbyte</span>
+        <span>• Metabase</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container cs-meta-wrap">
+    <div class="case-study-meta">
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-user-tie"></i>
+        <div>
+          <small>Role</small>
+          <strong>Analytics Engineering Lead, Revenue domain</strong>
+        </div>
+      </div>
+      <div class="cs-meta-item">
+        <i class="fa-solid fa-layer-group"></i>
+        <div>
+          <small>Area</small>
+          <strong>Data modelling · Pricing · Reconciliation</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-study">
+    <div class="container cs-inner">
+      <div class="cs-block">
+        <h3>Context</h3>
+        <p>
+          On a payments platform processing across multiple regions, fee plans, and payment rails, revenue sat at the
+          intersection of several related but disconnected datasets: transaction events, product and plan catalogs,
+          merchant-level pricing configurations and processor settlement.
+        </p>
+        <p>
+          Finance, business, and operations teams each needed their own cut of the revenue numbers — but those
+          numbers were being produced differently depending on who ran them, with no single auditable transaction-level
+          record that tied a billing event through to the pricing and cost lines that determined the final revenue amount.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Problem</h3>
+        <p>
+          Revenue calculations lacked a consistent, centralized, transaction-level foundation, creating several connected challenges:
+        </p>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li><strong>Manual computation</strong> — revenue calculations relied on cross-spreadsheet computations across multiple transaction and pricing dates, making it difficult to consistently apply pricing and trace individual results.</li>
+          <li><strong>No centralized pricing repository</strong> — pricing configurations were not maintained in a single structured source, making it difficult to consistently apply the correct pricing across transactions.</li>
+          <li><strong>Broken effective-date handling</strong> — pricing changes and amendments were not reliably tied to their effective periods, creating a risk of applying incorrect pricing to transactions.</li>
+          <li><strong>No transaction-level breakdown</strong> — revenue could not be consistently traced from the individual transaction through the applicable pricing, fees, costs, and final revenue amount.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Approach</h3>
+        <p>
+          The design goal was a <strong>grain-preserving, transaction-level revenue fact</strong> — every billing event on the platform is enriched, once, with all the pricing and cost context needed to answer any downstream revenue question without re-joining raw systems.
+        </p>
+        <ol style="margin:6px 0 0 22px; color:var(--gray-600); font-size:15.5px; line-height:1.75;">
+          <li style="margin-bottom:12px;"><strong>Inventory &amp; unify inputs.</strong> Identify and structure the required pricing, transaction, merchant, product, processor-cost, and billing inputs. Establish consistent fields and effective-date information so the different sources can be used together.</li>
+          <li style="margin-bottom:12px;"><strong>Establish the pricing model.</strong> Build structured pricing entities and relationships covering merchant-specific pricing, product/plan configurations, processor costs, and effective periods. The model supports both specific pricing configurations and appropriate fallback rules.</li>
+          <li style="margin-bottom:12px;"><strong>Build the transaction-level revenue model.</strong> Enrich each transaction with the pricing and cost attributes required to calculate the applicable fees, costs, and revenue at transaction level. The resulting model provides a single analytical record from which downstream revenue reporting can be derived.</li>
+          <li style="margin-bottom:12px;"><strong>Validate and reconcile.</strong> Add checks around pricing coverage, missing cost information, effective-date matching, and calculated outputs so exceptions can be identified before reaching downstream reporting.</li>
+          <li style="margin-bottom:12px;"><strong>Publish analytics-ready outputs.</strong> Publish the transaction-level model and aggregated reporting outputs across key business dimensions for BI, finance, and operational analysis.</li>
+        </ol>
+      </div>
+
+      <div class="cs-block">
+        <h3>Architecture &amp; Implementation</h3>
+        <div class="summary-arch">
+          <div class="summary-arch-title">Summary of Architecture</div>
+          <div class="arch-flow">
+            <div class="arch-node alt"><i class="fa-solid fa-table-cells-large" style="margin-right:10px;"></i>Google Sheets <br> <small>Products &amp; Pricing Config</small></div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><span>Scheduled sync · Airbyte</span></div>
+            <div class="arch-node"><i class="fa-solid fa-database" style="margin-right:10px;"></i>ClickHouse <br> <small>Transactional + Pricing Staging</small></div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><span>SQL modelling script · effective-dated joins</span></div>
+            <div class="arch-node hl"><i class="fa-solid fa-gears" style="margin-right:10px;"></i>Refreshable Materialized View · Revenue Model</div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><span>Scheduled materialization · publish</span></div>
+            <div class="arch-node alt"><i class="fa-solid fa-table-list" style="margin-right:10px;"></i>Published Target Table <br> <small>BI-ready</small></div>
+            <div class="arch-arrow"><i class="fa-solid fa-chevron-down"></i><span>Semantic exposure · governed access</span></div>
+            <div class="arch-node"><i class="fa-solid fa-chart-line" style="margin-right:10px;"></i>BI Tools <br> <small>Finance. Settlement. Reporting</small></div>
+          </div>
+          <div class="arch-caption">Sanitized Conceptual Architecture</div>
+        </div>
+        <p style="margin-top:14px;">
+          This is <strong>not</strong> a medallion / bronze-silver-gold warehouse architecture. The pipeline is intentionally short and deterministic:
+        </p>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li><strong>Sheets are the computed source of truth for products &amp; pricing.</strong> Plans, tiers, effective windows, and fee rules are modelled and version-controlled by the revenue team directly in Sheets before ingestion.</li>
+          <li><strong>Airbyte runs a scheduled sync</strong> that brings Sheets-configured product and pricing rows (alongside billing events and processor cost feeds) into ClickHouse staging tables with no intermediate transformations.</li>
+          <li><strong>The revenue model is a single SQL query</strong> (effective-dated SCD2 joins, gross-fee and cost calculations) written once and deployed as a <strong>refreshable materialized view</strong> inside ClickHouse.</li>
+          <li><strong>The MV publishes to a governed target table</strong> on a fixed schedule — wide, additive, per-transaction grain, with all metric columns pre-computed and identical across every downstream use case.</li>
+          <li><strong>BI consumes only the published target table.</strong> Dashboards, reconciliation reports, and ad-hoc analyst queries all read from the same BI-ready surface — guaranteeing one definition of every revenue metric.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Key Engineering Challenges</h3>
+        <ul style="list-style-type: disc; padding-left: 20px;">
+          <li><strong>Effective-dated pricing.</strong> Pricing configurations could change over time, meaning a transaction needed to be matched to the pricing that was valid at the time it occurred rather than simply using the latest configuration.</li>
+          <li><strong>Pricing resolution.</strong> Multiple pricing levels and fallback rules needed to be resolved consistently so that the correct configuration was selected for each transaction. I structured the precedence explicitly within the model so resolution was deterministic and auditable.</li>
+          <li><strong>Transaction-level traceability.</strong> Revenue needed to remain explainable at the individual transaction level, with the applicable pricing, fees, costs, and calculated revenue visible rather than only producing aggregated totals. Every row in the final table retained both its upstream identifiers and the matched configuration identifiers.</li>
+          <li><strong>Data consistency and reconciliation.</strong> Pricing, transaction, and processor-cost inputs came from different sources and required validation before being used in revenue calculations. I added checks for missing mappings, incomplete pricing coverage, and unexpected calculation results so issues surfaced before downstream reporting used the output.</li>
+          <li><strong>Decimal and financial calculation precision.</strong> Financial calculations required consistent numeric types and precision across transaction amounts, percentages, fees, and calculated revenue to avoid rounding and type-conversion issues. Precision and rounding rules were applied explicitly at the correct stage in the model rather than relying on implicit behaviour.</li>
+        </ul>
+      </div>
+
+      <div class="cs-block">
+        <h3>Outcome &amp; Impact</h3>
+        <div class="cs-outcomes">
+          <div class="outcome-card">
+            <div class="num">Consistent revenue foundation</div>
+            <p>A single transaction-level revenue record — one source of truth used identically by BI, finance, and operations.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Effective-dated &amp; auditable</div>
+            <p>Pricing changes, plan amendments, and cost rates are applied consistently to the correct transaction window.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Transaction-level explainability</div>
+            <p>Any revenue amount can be traced from an aggregate figure back to the individual transaction, matched pricing, and applicable cost lines.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="num">Coverage &amp; quality visibility</div>
+            <p>Missing pricing coverage, cost-population gaps, and calculation exceptions are surfaced via explicit validation checks during the build.</p>
+          </div>
+        </div>
+        <p style="margin-top:22px;">
+          The pricing coverage checks also surfaced an under-billed pattern across a segment of configurations, enabling a structured
+          remediation that aligned pricing behaviour with the documented product and plan terms — while keeping the revenue model
+          itself deterministic and auditable through the correction cycle.
+        </p>
+      </div>
+
+      <div class="cs-block">
+        <h3>Technology Stack</h3>
+        <div class="stack-group">
+          <h5>Database &amp; Modelling</h5>
+          <div class="stack-tools">
+            <span class="with-icon">ClickHouse</span>
+            <span>SQL</span>
+            <span>Data Modelling</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Data Ingestion</h5>
+          <div class="stack-tools">
+            <span class="with-icon">Airbyte</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <h5>Business Intelligence</h5>
+          <div class="stack-tools">
+            <span class="with-icon">Metabase</span>
+          </div>
+        </div>
+
+        <div class="sanitized-note">
+          <h5><i class="fa-solid fa-shield-halved"></i>Security · Confidentiality note</h5>
+          <p>This case study has been intentionally sanitized. Proprietary data, internal infrastructure details, credentials,
+            customer information, and confidential implementation details have been omitted or described generically where
+            appropriate. All architecture diagrams and examples are conceptual and illustrative.</p>
+        </div>
+
+        <div class="cs-cta-bar">
+          <a class="btn btn-outline" href="/projects/"><i class="fa-solid fa-arrow-left"></i> Back to Projects</a>
+          <!-- <a class="btn btn-dark" href="/#contact">Let's Talk <i class="fa-solid fa-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container footer-inner footer-inner-tight">
+      <div class="footer-brand">
+        <p class="brand-desc">
+          My mission is to help businesses unlock the full value of their data — through scalable infrastructure, clear reporting, and insights that drive real action.
+        </p>
+        <div class="socials">
+          <a class="social" href="mailto:adesanya240@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          <a class="social" href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a class="social" href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social" href="https://x.com/Adesanya_AZ" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social" href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer" aria-label="Medium"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:adesanya240@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abdulazeezadesanya/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/AdesanyaAzeez" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://medium.com/@adesanyaabdulazeez" target="_blank" rel="noopener noreferrer">Medium</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 AbdulAzeez Adesanya. All rights reserved.</span>
+        <span>Built with data. Delivered with care.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggleR = document.getElementById('mobile-toggle-r');
+    const navLinksR = document.getElementById('nav-links-r');
+    if (toggleR && navLinksR) {
+      toggleR.addEventListener('click', () => navLinksR.classList.toggle('open'));
+      document.querySelectorAll('#nav-links-r a').forEach(link => {
+        link.addEventListener('click', () => navLinksR.classList.remove('open'));
+      });
+    }
+  </script>
+</body>
+</html>
